@@ -166,7 +166,7 @@ class Key
     }
 
     /**
-     * Convert the key object to base64 encoded string.
+     * Converts the key object to base64 encoded string.
      *
      * @return string The encoded key.
      */
@@ -177,7 +177,7 @@ class Key
     }
 
     /**
-     * Convert the key's encoded string to array of properties.
+     * Converts the key's encoded string to array of properties.
      *
      * @return array Array containing key's namespace, class, and id.
      */

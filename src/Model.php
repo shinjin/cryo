@@ -67,7 +67,7 @@ abstract class Model
     /**
      * Constructor
      *
-     * @param array $data A list of property values to assign to the object.
+     * @param array $data A list of values to assign to the object.
      */
     public function __construct(array $data = array())
     {
@@ -167,7 +167,7 @@ abstract class Model
      */
     public static function getProperties(): array
     {
-        if (!current(static::$properties) instanceof \Cryo\Property) {
+        if (!current(static::$properties) instanceof Property) {
             self::initializeProperties();
         }
 
@@ -212,7 +212,8 @@ abstract class Model
         $objects = array();
 
         foreach($ids as $id) {
-            array_push($objects, self::getByKey(Key::generate($class, $id)));
+            $key = Key::generate($class, $id);
+            array_push($objects, self::$storage->fetch((string)$key));
         }
 
         return count($objects) === 1 ? current($objects) : $objects;
@@ -250,7 +251,7 @@ abstract class Model
         try {
             self::$db = new Db($pdo);
         } catch(\Shinjin\Pdo\Exception\InvalidArgumentException $e) {
-            $message = 'Parameter must be a pdo object or array.';
+            $message = 'initializeStorage arg must be a pdo object or array.';
             throw new InvalidArgumentException($message);
         }
 
