@@ -7,6 +7,8 @@ An active record implementation.
 
 ~~Use Cryo if you need:~~ Don't use Cryo yet.
 
+## Install
+
 Via Composer
 
 ``` bash

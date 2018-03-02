@@ -4,14 +4,11 @@ namespace Cryo\Property;
 use Cryo\Key;
 use Cryo\Property;
 
-class ReferenceProperty extends Property
+class ObjectProperty extends Property
 {
-
     const DEFAULT_PARAMS = array(
-        'class' => null
+        'reference' => null
     );
-
-    protected static $alias = 'object';
 
     public function __construct(string $name, array $params){
         parent::__construct($name, $params);
@@ -30,8 +27,7 @@ class ReferenceProperty extends Property
 
     public function makeValueFromDb($value)
     {
-        $key = Key::generate($this->params['class'], (integer)$value);
+        $key = Key::generate($this->params['reference'], (integer)$value);
         return '__freezer_' . (string)$key;
     }
-
 }

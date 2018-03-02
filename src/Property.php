@@ -47,8 +47,8 @@ abstract class Property
         $this->name   = $name;
         $this->params = array_replace(self::DEFAULT_PARAMS, $params);
 
-        if (isset(static::$alias)) {
-            $this->params['type'] = static::$alias;
+        if (isset(static::$type_alias)) {
+            $this->params['type'] = static::$type_alias;
         } else {
             $class_name = (new \ReflectionClass($this))->getShortName();
             $this->params['type'] = lcfirst(strstr($class_name, 'Property', true));

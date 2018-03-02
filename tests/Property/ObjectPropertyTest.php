@@ -1,29 +1,29 @@
 <?php
 namespace Cryo\Test\Property;
 
-use Cryo\Property\ReferenceProperty;
+use Cryo\Property\ObjectProperty;
 use PHPUnit\Framework\TestCase;
 
-class ReferencePropertyTest extends TestCase
+class ObjectPropertyTest extends TestCase
 {
     private $property;
 
     protected function setUp()
     {
-        $params = array('class' => '\\Cryo\\Test\\Model\\AuthorModel');
-        $this->property = new ReferenceProperty('test', $params);
+        $params = array('reference' => '\\Cryo\\Test\\Model\\AuthorModel');
+        $this->property = new ObjectProperty('test', $params);
     }
 
     /**
-     * @covers Cryo\Property\ReferenceProperty::__construct
+     * @covers Cryo\Property\ObjectProperty::__construct
      */
     public function testConstructorWorks()
     {
-        $this->assertInstanceOf('\\Cryo\\Property\\ReferenceProperty', $this->property);
+        $this->assertInstanceOf('\\Cryo\\Property\\ObjectProperty', $this->property);
     }
 
     /**
-     * @covers Cryo\Property\ReferenceProperty::makeValueForDb
+     * @covers Cryo\Property\ObjectProperty::makeValueForDb
      */
     public function testMakeValueForDbReplacesFreezerValueWithDbValue()
     {
@@ -34,7 +34,7 @@ class ReferencePropertyTest extends TestCase
     }
 
     /**
-     * @covers Cryo\Property\ReferenceProperty::makeValueFromDb
+     * @covers Cryo\Property\ObjectProperty::makeValueFromDb
      */
     public function testMakeValueFromDbReplacesDbValueWithFreezerValue()
     {

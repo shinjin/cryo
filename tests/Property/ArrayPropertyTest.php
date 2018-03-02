@@ -10,7 +10,7 @@ class ArrayPropertyTest extends TestCase
 
     protected function setUp()
     {
-        $params = array('class' => '\\Cryo\\Test\\Model\\AuthorModel');
+        $params = array('reference' => '\\Cryo\\Test\\Model\\AuthorModel');
         $this->property = new ArrayProperty('test', $params);
     }
 

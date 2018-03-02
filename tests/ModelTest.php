@@ -1,6 +1,7 @@
 <?php
 namespace Cryo\Test;
 
+use Cryo\Model;
 use Cryo\Test\Model\AuthorModel;
 use Cryo\Test\Model\EntryModel;
 use Cryo\Test\Model\EntryArrayModel;
@@ -229,7 +230,7 @@ class ModelTest extends DatabaseTestCase
      */
     public function testCreatesDbAndStorageObjects()
     {
-        EntryModel::initializeStorage(self::$pdo);
+        Model::initializeStorage(self::$pdo);
 
         $reflector = new \ReflectionClass('\\Cryo\\Model');
         $db = $reflector->getProperty('db');
@@ -247,7 +248,7 @@ class ModelTest extends DatabaseTestCase
      */
     public function testInitializeStorageThrowsExceptionIfArgumentIsInvalid()
     {
-        EntryModel::initializeStorage(null);
+        Model::initializeStorage(null);
     }
 
     /**

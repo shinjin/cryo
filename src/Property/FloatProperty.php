@@ -6,6 +6,6 @@ use Cryo\Property;
 class FloatProperty extends Property
 {
 
-    protected static $alias = 'double';
+    protected static $type_alias = 'double';
 
 }

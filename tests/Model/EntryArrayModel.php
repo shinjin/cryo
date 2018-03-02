@@ -8,8 +8,8 @@ class EntryArrayModel extends Model
     protected static $properties = array(
         'id' => array('type' => 'integer'),
         'author' => array(
-            'type'  => 'array',
-            'class' => 'Cryo\Test\Model\AuthorModel'
+            'type' => 'array',
+            'reference' => 'Cryo\Test\Model\AuthorModel'
         ),
         'content' => array('type' => 'string'),
         'created' => array('type' => 'string')
