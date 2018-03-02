@@ -1,0 +1,25 @@
+language: php
+
+php:
+  - 7.2
+  - nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install:
+  - composer install
+
+script:
+  - composer test
+
+after_success:
+ - travis_retry php vendor/bin/php-coveralls
+
+matrix:
+  allow_failures:
+    - php: nightly
+  fast_finish: true
+
+sudo: false

@@ -1,0 +1,9 @@
+.DS_STORE
+build
+coverage
+vendor
+
+src/Db.php
+src/Query.php
+tests/DbTest.php
+tests/QueryTest.php

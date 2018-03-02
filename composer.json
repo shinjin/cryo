@@ -1,0 +1,36 @@
+{
+    "name": "shinjin/cryo",
+    "description": "An active record implementation",
+    "keywords": ["active record", "activerecord", "orm"],
+    "homepage": "http://github.com/shinjin/cryo",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rick Shin"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "shinjin/freezer": "^0",
+        "shinjin/pdo": "^0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "phpunit/dbunit": "^4.0",
+        "php-coveralls/php-coveralls": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cryo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cryo\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit"
+    }
+}
