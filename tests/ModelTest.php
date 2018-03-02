@@ -2,7 +2,6 @@
 namespace Cryo\Test;
 
 use Cryo\Test\Model\AuthorModel;
-use Cryo\Test\Model\BadModel;
 use Cryo\Test\Model\EntryModel;
 use Cryo\Test\Model\EntryArrayModel;
 
@@ -67,15 +66,48 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::__construct
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructorThrowsExceptionIfStorageIsNotInitialized()
+    {
+        $reflector = new \ReflectionClass('\\Cryo\\Model');
+        $db = $reflector->getProperty('db');
+        $db->setAccessible(true);
+        $db->setValue(null);
+
+        new EntryModel;
+    }
+
+    /**
+     * @covers Cryo\Model::__construct
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructorThrowsExceptionIfTableIsNotDefined()
+    {
+        new class extends \Cryo\Model
+        {
+            protected static $table = null;
+        };
+    }
+
+    /**
+     * @covers Cryo\Model::__construct
      * @covers Cryo\Model::load
      * @covers Cryo\Model::getProperties
      * @covers Cryo\Model::initializeProperties
      * @covers Cryo\Model::generateProperty
      * @expectedException InvalidArgumentException
      */
-    public function testConstructorThrowsExceptionWithInvalidModel()
+    public function testConstructorThrowsExceptionIfPropertyIsInvalid()
     {
-        $bad = new BadModel;
+        new class extends \Cryo\Model
+        {
+            protected static $properties = array(
+                'id'   => array('type' => 'integer'),
+                'name' => array('type' => 'invalid')
+            );
+            protected static $table = '';
+        };
     }
 
     /**

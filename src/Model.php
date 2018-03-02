@@ -71,6 +71,14 @@ abstract class Model
      */
     public function __construct(array $data = array())
     {
+        if (!self::$db instanceof Db) {
+            throw new InvalidArgumentException('Db and storage are not defined.');
+        }
+
+        if (!is_string(static::$table)) {
+            throw new InvalidArgumentException('Db table is not defined.');
+        }
+
         $this->state = array();
 
         $this->load($data);
@@ -400,7 +408,7 @@ abstract class Model
         $class  = sprintf('\\Cryo\\Property\\%sProperty', $type);
 
         if (!class_exists($class)) {
-            $message = sprintf('%sProperty has not been defined.', $type);
+            $message = sprintf('%sProperty is not defined.', $type);
             throw new InvalidArgumentException($message);
         }
 
