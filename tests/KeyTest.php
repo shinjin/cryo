@@ -13,7 +13,7 @@ class KeyTest extends DatabaseTestCase
         parent::setUp();
 
         $this->key = new Key;
-        $this->key->setClass('\\Cryo\\Test\\Model\\EntryModel');
+        $this->key->setClass('\\Cryo\\Test\\Model\\Entry');
         $this->key->setId(1);
     }
 
@@ -43,7 +43,7 @@ class KeyTest extends DatabaseTestCase
     {
         $key = new Key((string)$this->key);
         $this->assertInstanceOf('\\Cryo\\Key', $key);
-        $this->assertSame('\\Cryo\\Test\\Model\\EntryModel', $key->getClass());
+        $this->assertSame('\\Cryo\\Test\\Model\\Entry', $key->getClass());
         $this->assertSame(array(1), $key->getId());
         $this->assertSame(null, $key->getNamespace());
     }
@@ -55,7 +55,7 @@ class KeyTest extends DatabaseTestCase
     public function testCastingToStringReturnsEncodedKey()
     {
         $this->assertSame(
-            'W251bGwsIlxcQ3J5b1xcVGVzdFxcTW9kZWxcXEVudHJ5TW9kZWwiLFsxXV0=',
+            'W251bGwsIlxcQ3J5b1xcVGVzdFxcTW9kZWxcXEVudHJ5IixbMV1d',
             (string)$this->key
         );
     }
@@ -66,7 +66,7 @@ class KeyTest extends DatabaseTestCase
      */
     public function testGeneratesNewKey()
     {
-        $key = Key::generate('\\Cryo\\Test\\Model\\EntryModel', 1);
+        $key = Key::generate('\\Cryo\\Test\\Model\\Entry', 1);
         $this->assertInstanceOf('\\Cryo\\Key', $key);
     }
 
@@ -75,8 +75,8 @@ class KeyTest extends DatabaseTestCase
      */
     public function testSetsClass()
     {
-        $this->key->setClass('\\Cryo\\Test\\Model\\EntryModel');
-        $this->assertSame('\\Cryo\\Test\\Model\\EntryModel', $this->key->getClass());
+        $this->key->setClass('\\Cryo\\Test\\Model\\Entry');
+        $this->assertSame('\\Cryo\\Test\\Model\\Entry', $this->key->getClass());
     }
 
     /**
@@ -122,7 +122,7 @@ class KeyTest extends DatabaseTestCase
      */
     public function testGetsIdPair()
     {
-        $this->key->setClass('\\Cryo\\Test\\Model\\EntryModel');
+        $this->key->setClass('\\Cryo\\Test\\Model\\Entry');
         $this->key->setId(array(1));
         $this->assertSame(array('id' => 1), $this->key->getIdPair());
     }
@@ -145,7 +145,7 @@ class KeyTest extends DatabaseTestCase
     public function testGetsInstance()
     {
         $object = $this->key->get();
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\EntryModel', $object);
+        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $object);
     }
 
     /**

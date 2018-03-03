@@ -75,10 +75,6 @@ abstract class Model
             throw new InvalidArgumentException('Db and storage are not defined.');
         }
 
-        if (!is_string(static::$table)) {
-            throw new InvalidArgumentException('Db table is not defined.');
-        }
-
         $this->state = array();
 
         $this->load($data);
@@ -155,6 +151,10 @@ abstract class Model
      */
     public static function getTable(): string
     {
+        if (empty(static::$table)) {
+            return lcfirst(basename(str_replace('\\', '/', get_called_class())));
+        }
+
         return static::$table;
     }
 
@@ -194,8 +194,11 @@ abstract class Model
         return function($object) {
             $result = array();
             foreach ($object->getProperties() as $name => $property) {
-                $result[$name] = $object->{$name};
+                if (strpos($name, '_') !== 0) {
+                    $result[$name] = $object->{$name};
+                }
             }
+            $result['__freezer'] = $object->__freezer;
             return $result;
         };
     }
@@ -304,7 +307,7 @@ abstract class Model
             throw new NotSavedException('Object has not been saved.');
         }
 
-        return self::$db->delete(static::$table, $this->getKey()->getIdPair());
+        return self::$db->delete(self::getTable(), $this->getKey()->getIdPair());
     }
 
     /**

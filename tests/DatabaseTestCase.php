@@ -35,8 +35,8 @@ abstract class DatabaseTestCase extends TestCase
     public function getDataSet()
     {
         return $this->createArrayDataSet(array(
-            'guestbook' => array(
-                array('id' => 1, 'content' => 'Hello buddy!', 'author' => 1, 'created' => '2010-04-24', '__freezer' => '{"hash":"2fe6f737a5ab97047622304616773fd3647f0b86"}'),
+            'entry' => array(
+                array('id' => 1, 'content' => 'Hello buddy!', 'author' => 1, 'created' => '2010-04-24', '__freezer' => '{"hash":"b5eff658a03ed7831b08f491ac95580010eeeb7d"}'),
                 array('id' => 2, 'content' => 'I like it!',   'author' => 2, 'created' => '2010-04-26'),
                 array('id' => 3, 'content' => 'Hello world!', 'author' => 3, 'created' => '2010-05-01')
             ),
@@ -57,7 +57,7 @@ abstract class DatabaseTestCase extends TestCase
 
     private function createTables()
     {
-        self::$pdo->query('CREATE TABLE IF NOT EXISTS guestbook (
+        self::$pdo->query('CREATE TABLE IF NOT EXISTS entry (
             id        integer primary key,
             content   varchar(255),
             author    text,

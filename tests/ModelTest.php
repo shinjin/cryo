@@ -2,9 +2,9 @@
 namespace Cryo\Test;
 
 use Cryo\Model;
-use Cryo\Test\Model\AuthorModel;
-use Cryo\Test\Model\EntryModel;
-use Cryo\Test\Model\EntryArrayModel;
+use Cryo\Test\Model\Author;
+use Cryo\Test\Model\Entry;
+use Cryo\Test\Model\EntryArray;
 
 class ModelTest extends DatabaseTestCase
 {
@@ -16,14 +16,14 @@ class ModelTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        $this->author = new AuthorModel(
+        $this->author = new Author(
             array(
                 'id'   => 4,
                 'name' => 'quinn'
             )
         );
 
-        $this->entry = new EntryModel(
+        $this->entry = new Entry(
             array(
                 'id'      => 4,
                 'author'  => $this->author,
@@ -32,7 +32,7 @@ class ModelTest extends DatabaseTestCase
             )
         );
 
-        $this->entry_array = new EntryArrayModel(
+        $this->entry_array = new EntryArray(
             array(
                 'id'      => 4,
                 'author'  => array($this->author),
@@ -62,7 +62,7 @@ class ModelTest extends DatabaseTestCase
         );
 
         $this->assertSame($expected, $this->entry->dump());
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\EntryModel', $this->entry);
+        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $this->entry);
     }
 
     /**
@@ -76,19 +76,7 @@ class ModelTest extends DatabaseTestCase
         $db->setAccessible(true);
         $db->setValue(null);
 
-        new EntryModel;
-    }
-
-    /**
-     * @covers Cryo\Model::__construct
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorThrowsExceptionIfTableIsNotDefined()
-    {
-        new class extends \Cryo\Model
-        {
-            protected static $table = null;
-        };
+        new Entry;
     }
 
     /**
@@ -185,7 +173,7 @@ class ModelTest extends DatabaseTestCase
      */
     public function testGetsModelTable()
     {
-        $this->assertSame('guestbook', EntryModel::getTable());
+        $this->assertSame('entry', EntryArray::getTable());
     }
 
     /**
@@ -193,7 +181,7 @@ class ModelTest extends DatabaseTestCase
      */
     public function testGetsModelPrimaryKey()
     {
-        $this->assertSame(array('id'), EntryModel::getPrimaryKey());
+        $this->assertSame(array('id'), Entry::getPrimaryKey());
     }
 
     /**
@@ -220,7 +208,7 @@ class ModelTest extends DatabaseTestCase
             '__freezer' => null
         );
 
-        $reader = EntryModel::getPropertyReader();
+        $reader = Entry::getPropertyReader();
 
         $this->assertSame($expected, $reader($this->author));
     }
@@ -258,11 +246,11 @@ class ModelTest extends DatabaseTestCase
      */
     public function testGetsObjectByKey()
     {
-        $entry = EntryModel::getByKey(
-            'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnlNb2RlbCIsWzFdXQ=='
+        $entry = Entry::getByKey(
+            'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsxXV0='
         );
 
-        $this->assertInstanceOf('Cryo\\Test\\Model\\EntryModel', $entry);
+        $this->assertInstanceOf('Cryo\\Test\\Model\\Entry', $entry);
         $this->assertEquals(1, $entry->id);
     }
 
@@ -273,14 +261,14 @@ class ModelTest extends DatabaseTestCase
      */
     public function testGetsMultipleObjectsByKeys()
     {
-        $entries = EntryModel::getByKey(
+        $entries = Entry::getByKey(
             array(
-                'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnlNb2RlbCIsWzFdXQ==',
-                'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnlNb2RlbCIsWzJdXQ=='
+                'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsxXV0=',
+                'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsyXV0='
             )
         );
 
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\EntryModel', $entries[0]);
+        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $entries[0]);
         $this->assertEquals(1, $entries[0]->id);
         $this->assertEquals(2, $entries[1]->id);
     }
@@ -294,9 +282,9 @@ class ModelTest extends DatabaseTestCase
      */
     public function testGetsObjectById()
     {
-        $entry = EntryModel::get(1);
+        $entry = Entry::get(1);
 
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\EntryModel', $entry);
+        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $entry);
         $this->assertEquals(1, $entry->id);
     }
 
@@ -309,9 +297,9 @@ class ModelTest extends DatabaseTestCase
      */
     public function testGetsMultipleObjectsByIds()
     {
-        $entries = EntryModel::get(array(1, 2));
+        $entries = Entry::get(array(1, 2));
 
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\EntryModel', $entries[0]);
+        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $entries[0]);
         $this->assertEquals(1, $entries[0]->id);
         $this->assertEquals(2, $entries[1]->id);
     }
@@ -324,7 +312,7 @@ class ModelTest extends DatabaseTestCase
      */
     public function testGetThrowsExceptionIfObjectDoesNotExist()
     {
-        EntryModel::get(5);
+        Entry::get(5);
     }
 
     /**
@@ -336,7 +324,7 @@ class ModelTest extends DatabaseTestCase
      */
     public function testGetsObjectKey()
     {
-        $entry = EntryModel::get(1);
+        $entry = Entry::get(1);
         $key = $entry->getKey();
 
         $this->assertInstanceOf('Cryo\\Key', $key);
@@ -359,11 +347,11 @@ class ModelTest extends DatabaseTestCase
      */
     public function testPutUpdatesObject()
     {
-        $entry = EntryModel::get(1);
+        $entry = Entry::get(1);
         $entry->content = '';
         $entry->put();
 
-        $saved = EntryModel::get(1);
+        $saved = Entry::get(1);
 
         $this->assertSame($entry->content, $saved->content);
     }
@@ -377,7 +365,7 @@ class ModelTest extends DatabaseTestCase
     {
         $this->entry->put();
 
-        $saved = EntryModel::get(4);
+        $saved = Entry::get(4);
 
         $this->assertEquals($this->entry, $saved);
     }
@@ -394,22 +382,23 @@ class ModelTest extends DatabaseTestCase
         $this->entry->put();
         $this->entry->id = 4;
 
-        $saved = EntryModel::get(4);
+        $saved = Entry::get(4);
 
         $this->assertEquals($this->entry, $saved);
     }
 
     /**
      * @covers Cryo\Model::delete
+     * @covers Cryo\Model::getTable
      * @expectedException \Freezer\Exception\ObjectNotFoundException
      */
     public function testDeletesObject()
     {
-        $entry   = EntryModel::get(1);
+        $entry   = Entry::get(1);
         $deleted = $entry->delete();
 
         $this->assertSame(1, $deleted);        
-        EntryModel::get(1);
+        Entry::get(1);
     }
 
     /**
@@ -473,7 +462,7 @@ class ModelTest extends DatabaseTestCase
     {
         $this->assertTrue($this->entry->isDirty());
 
-        $entry = EntryModel::get(1);
+        $entry = Entry::get(1);
         $this->assertFalse($entry->isDirty());        
     }
 
@@ -484,7 +473,7 @@ class ModelTest extends DatabaseTestCase
     {
         $this->assertFalse($this->entry->isSaved());
 
-        $entry = EntryModel::get(1);
+        $entry = Entry::get(1);
         $this->assertTrue($entry->isSaved());        
     }
 
