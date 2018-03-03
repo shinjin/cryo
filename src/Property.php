@@ -18,6 +18,13 @@ abstract class Property
     );
 
     /**
+     * The property type
+     *
+     * @var string
+     */
+    protected static $type = null;
+
+    /**
      * The property name
      *
      * @var string
@@ -47,8 +54,8 @@ abstract class Property
         $this->name   = $name;
         $this->params = array_replace(self::DEFAULT_PARAMS, $params);
 
-        if (isset(static::$type_alias)) {
-            $this->params['type'] = static::$type_alias;
+        if (isset(static::$type)) {
+            $this->params['type'] = static::$type;
         } else {
             $class_name = (new \ReflectionClass($this))->getShortName();
             $this->params['type'] = lcfirst(strstr($class_name, 'Property', true));
