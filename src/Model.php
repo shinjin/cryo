@@ -151,10 +151,6 @@ abstract class Model
      */
     public static function getTable(): string
     {
-        if (empty(static::$table)) {
-            return lcfirst(basename(str_replace('\\', '/', get_called_class())));
-        }
-
         return static::$table;
     }
 
@@ -307,7 +303,7 @@ abstract class Model
             throw new NotSavedException('Object has not been saved.');
         }
 
-        return self::$db->delete(self::getTable(), $this->getKey()->getIdPair());
+        return self::$db->delete(static::$table, $this->getKey()->getIdPair());
     }
 
     /**

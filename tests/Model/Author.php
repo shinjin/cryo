@@ -9,4 +9,6 @@ class Author extends Model
         'id'   => array('type' => 'integer'),
         'name' => array('type' => 'string')
     );
+
+    protected static $table = 'author';
 }

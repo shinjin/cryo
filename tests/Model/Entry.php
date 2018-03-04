@@ -14,4 +14,6 @@ class Entry extends Model
         'content' => array('type' => 'string'),
         'created' => array('type' => 'string')
     );
+
+    protected static $table = 'entry';
 }
