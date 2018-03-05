@@ -247,7 +247,7 @@ class ModelTest extends DatabaseTestCase
     public function testGetsObjectByKey()
     {
         $entry = Entry::getByKey(
-            'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsxXV0='
+            'WyJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsxXV0='
         );
 
         $this->assertInstanceOf('Cryo\\Test\\Model\\Entry', $entry);
@@ -263,8 +263,8 @@ class ModelTest extends DatabaseTestCase
     {
         $entries = Entry::getByKey(
             array(
-                'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsxXV0=',
-                'WyIiLCJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsyXV0='
+                'WyJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsxXV0=',
+                'WyJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsyXV0='
             )
         );
 

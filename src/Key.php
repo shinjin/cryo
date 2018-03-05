@@ -21,13 +21,6 @@ class Key
     private $id;
 
     /**
-     * A namespace for the key.
-     *
-     * @var array
-     */
-    private $namespace;
-
-    /**
      * Constructor.
      *
      * @param string $encoded The encoded key string
@@ -37,10 +30,9 @@ class Key
     {
         $this->class = null;
         $this->id = null;
-        $this->namespace = null;
 
         if (!empty($encoded)) {
-            list($this->namespace, $this->class, $this->id) = $this->decode($encoded);
+            list($this->class, $this->id) = $this->decode($encoded);
         }
     }
 
@@ -59,16 +51,14 @@ class Key
      *
      * @param string        $class     The object's class name
      * @param string|array  $id        The object's id
-     * @param string        $namespace A namespace for the key
      *
      * @return \Cryo\Key
      */
-    public static function generate(string $class, $id, string $namespace = ''): Key
+    public static function generate(string $class, $id): Key
     {
         $key = new static;
         $key->class = $class;
         $key->setId($id);
-        $key->namespace = $namespace;
         return $key;
     }
 
@@ -136,16 +126,6 @@ class Key
     }
 
     /**
-     * Returns the object's namespace.
-     *
-     * @return string|null
-     */
-    public function getNamespace(): ?string
-    {
-        return $this->namespace;
-    }
-
-    /**
      * Fetches the object.
      *
      * @return \Cryo\Model
@@ -172,14 +152,13 @@ class Key
      */
     private function encode(): string
     {
-        $key = array($this->namespace, $this->class, $this->id);
-        return base64_encode(json_encode($key));
+        return base64_encode(json_encode(array($this->class, $this->id)));
     }
 
     /**
      * Converts the key's encoded string to array of properties.
      *
-     * @return array Array containing key's namespace, class, and id.
+     * @return array Array containing key's class and id.
      */
     private function decode(string $encoded): array
     {

@@ -38,7 +38,7 @@ class ObjectPropertyTest extends TestCase
      */
     public function testMakeValueFromDbReplacesDbValueWithFreezerValue()
     {
-        $expected = '__freezer_WyIiLCJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzFdXQ==';
+        $expected = '__freezer_WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzFdXQ==';
 
         $this->assertSame($expected, $this->property->makeValueFromDb(1));
     }

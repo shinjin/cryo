@@ -21,7 +21,6 @@ class KeyTest extends DatabaseTestCase
      * @covers Cryo\Key::__construct
      * @covers Cryo\Key::getClass
      * @covers Cryo\Key::getId
-     * @covers Cryo\Key::getNamespace
      */
     public function testConstructorWithDefaultArguments()
     {
@@ -29,7 +28,6 @@ class KeyTest extends DatabaseTestCase
         $this->assertInstanceOf('\\Cryo\\Key', $key);
         $this->assertSame(null, $key->getClass());
         $this->assertSame(null, $key->getId());
-        $this->assertSame(null, $key->getNamespace());
     }
 
     /**
@@ -37,7 +35,6 @@ class KeyTest extends DatabaseTestCase
      * @covers Cryo\Key::decode
      * @covers Cryo\Key::getClass
      * @covers Cryo\Key::getId
-     * @covers Cryo\Key::getNamespace
      */
     public function testConstructorWithEncodedKeyArgument()
     {
@@ -45,7 +42,6 @@ class KeyTest extends DatabaseTestCase
         $this->assertInstanceOf('\\Cryo\\Key', $key);
         $this->assertSame('\\Cryo\\Test\\Model\\Entry', $key->getClass());
         $this->assertSame(array(1), $key->getId());
-        $this->assertSame(null, $key->getNamespace());
     }
 
     /**
@@ -55,7 +51,7 @@ class KeyTest extends DatabaseTestCase
     public function testCastingToStringReturnsEncodedKey()
     {
         $this->assertSame(
-            'W251bGwsIlxcQ3J5b1xcVGVzdFxcTW9kZWxcXEVudHJ5IixbMV1d',
+            'WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxFbnRyeSIsWzFdXQ==',
             (string)$this->key
         );
     }
