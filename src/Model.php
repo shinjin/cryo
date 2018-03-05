@@ -121,11 +121,8 @@ abstract class Model
 
         $this->state[$name] = static::$properties[$name]->validate($value);
 
-        $pk = self::getPrimaryKey();
-
-        if (in_array($name, $pk)) {
-            $id = array_intersect_key($this->state, array_flip($pk));
-            $this->state['__key']->setId($id);
+        if (in_array($name, self::getPrimaryKey())) {
+            $this->state['__key']->setId($this->getId());
         }
     }
 
@@ -276,6 +273,16 @@ abstract class Model
     }
 
     /**
+     * Returns the object's id from state.
+     *
+     * @return array
+     */
+    public function getId(): array
+    {
+        return array_intersect_key($this->state, array_flip(self::getPrimaryKey()));
+    }
+
+    /**
      * Returns the object's key.
      *
      * @return \Cryo\Key
@@ -297,6 +304,12 @@ abstract class Model
      */
     public function put(): void
     {
+        $id = $this->getId();
+
+        if (count($id) === 1 && current($id) === null) {
+            $this->state['__key']->setId(array(uniqid()));
+        }
+
         self::$storage->store($this);
     }
 

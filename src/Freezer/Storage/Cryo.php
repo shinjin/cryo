@@ -49,7 +49,8 @@ class Cryo extends Storage
         foreach ($objects as $key => $object) {
             if ($object['isDirty'] === true) {
                 // extract id from object
-                $id = (new Key($key))->getIdPair();
+                $pk = $object['class']::getPrimaryKey();
+                $id = array_intersect_key($object['state'], array_flip($pk));
                 $isAutoIncrementId = count($id) === 1 && current($id) === null;
 
                 $table = $object['class']::getTable();

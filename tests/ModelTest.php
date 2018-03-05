@@ -315,6 +315,14 @@ class ModelTest extends DatabaseTestCase
     }
 
     /**
+     * @covers Cryo\Model::getId
+     */
+    public function testGetsObjectIdFromState()
+    {
+        $this->assertSame(array('id' => 4), $this->entry->getId());
+    }
+
+    /**
      * @covers Cryo\Model::getKey
      * @covers Cryo\Model::get
      * @covers Cryo\Key::getId
