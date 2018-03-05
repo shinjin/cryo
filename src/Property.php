@@ -22,7 +22,7 @@ abstract class Property
      *
      * @var string
      */
-    protected static $type = null;
+    protected static $type;
 
     /**
      * The property name

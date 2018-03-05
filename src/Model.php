@@ -16,21 +16,21 @@ abstract class Model
      *
      * @var \Shinjin\Pdo\Db
      */
-    protected static $db = null;
+    protected static $db;
 
     /**
      * The Freezer storage object.
      *
      * @var \Cryo\Freezer\Storage\Cryo
      */
-    protected static $storage = null;
+    protected static $storage;
 
     /**
      * The db table name.
      *
      * @var string
      */
-    protected static $table = null;
+    protected static $table;
 
     /**
      * The db table's primary key. Can be string or array of column names for
@@ -41,11 +41,11 @@ abstract class Model
     protected static $primary_key = 'id';
 
     /**
-     * The schema that maps the property names to parameters.
+     * A list that defines the model properties and parameters.
      *
      * @var array
      */
-    protected static $properties = null;
+    protected static $properties;
 
     /**
      * A list of properties to only dump or only load.
@@ -91,8 +91,9 @@ abstract class Model
     public function &__get(string $name)
     {
         if (!array_key_exists($name, static::$properties)) {
-            $message = sprintf('Property "%s" does not exist.', $name);
-            throw new InvalidArgumentException($message);
+            throw new InvalidArgumentException(
+                sprintf('Property "%s" does not exist.', $name)
+            );
         }
 
         return $this->state[$name];
@@ -111,8 +112,9 @@ abstract class Model
     public function __set(string $name, $value): void
     {
         if (!array_key_exists($name, static::$properties)) {
-            $message = sprintf('Property "%s" does not exist.', $name);
-            throw new InvalidArgumentException($message);
+            throw new InvalidArgumentException(
+                sprintf('Property "%s" does not exist.', $name)
+            );
         }
 
         $this->state[$name] = static::$properties[$name]->validate($value);
@@ -258,8 +260,9 @@ abstract class Model
         try {
             self::$db = new Db($pdo);
         } catch(\Shinjin\Pdo\Exception\InvalidArgumentException $e) {
-            $message = 'initializeStorage arg must be a pdo object or array.';
-            throw new InvalidArgumentException($message);
+            throw new InvalidArgumentException(
+                'initializeStorage arg must be a pdo object or array.'
+            );
         }
 
         $freezer = new Freezer('__key', self::getPropertyReader());
@@ -347,9 +350,9 @@ abstract class Model
             $__freezer = (array)json_decode($this->state['__freezer'], true);
 
             if (isset($__freezer['hash'])) {
-                $this_hash = self::$storage->getFreezer()->generateHash($this);
+                $hash = self::$storage->getFreezer()->generateHash($this);
 
-                if ($__freezer['hash'] === $this_hash) {
+                if ($__freezer['hash'] === $hash) {
                     return false;
                 }
             }
@@ -403,12 +406,12 @@ abstract class Model
     private static function generateProperty(string $name, array $params): Property
     {
         $params = array_replace(Property::DEFAULT_PARAMS, $params);
-        $type   = ucfirst($params['type']);
-        $class  = sprintf('\\Cryo\\Property\\%sProperty', $type);
+        $class  = sprintf('\\Cryo\\Property\\%sProperty', ucfirst($params['type']));
 
         if (!class_exists($class)) {
-            $message = sprintf('%sProperty is not defined.', $type);
-            throw new InvalidArgumentException($message);
+            throw new InvalidArgumentException(
+                sprintf('%s property is not defined.', ucfirst($params['type']))
+            );
         }
 
         return new $class($name, $params);
