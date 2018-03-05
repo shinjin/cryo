@@ -25,7 +25,7 @@ class Key
      *
      * @var array
      */
-    private $ns;
+    private $namespace;
 
     /**
      * Constructor.
@@ -37,10 +37,10 @@ class Key
     {
         $this->class = null;
         $this->id = null;
-        $this->ns = null;
+        $this->namespace = null;
 
         if (!empty($encoded)) {
-            list($this->ns, $this->class, $this->id) = $this->decode($encoded);
+            list($this->namespace, $this->class, $this->id) = $this->decode($encoded);
         }
     }
 
@@ -57,18 +57,18 @@ class Key
     /**
      * Creates a new key and returns it.
      *
-     * @param string        $class The object's class name
-     * @param string|array  $id    The object's id
-     * @param string        $ns    A namespace for the key
+     * @param string        $class     The object's class name
+     * @param string|array  $id        The object's id
+     * @param string        $namespace A namespace for the key
      *
      * @return \Cryo\Key
      */
-    public static function generate(string $class, $id, string $ns = ''): Key
+    public static function generate(string $class, $id, string $namespace = ''): Key
     {
         $key = new static;
         $key->class = $class;
         $key->setId($id);
-        $key->ns = $ns;
+        $key->namespace = $namespace;
         return $key;
     }
 
@@ -142,7 +142,7 @@ class Key
      */
     public function getNamespace(): ?string
     {
-        return $this->ns;
+        return $this->namespace;
     }
 
     /**
@@ -172,7 +172,7 @@ class Key
      */
     private function encode(): string
     {
-        $key = array($this->ns, $this->class, $this->id);
+        $key = array($this->namespace, $this->class, $this->id);
         return base64_encode(json_encode($key));
     }
 
