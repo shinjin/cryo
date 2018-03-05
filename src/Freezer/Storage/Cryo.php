@@ -50,7 +50,7 @@ class Cryo extends Storage
             if ($object['isDirty'] === true) {
                 // extract id from object
                 $id = (new Key($key))->getIdPair();
-                $isAutoIncrementId = in_array(null, $id);
+                $isAutoIncrementId = count($id) === 1 && current($id) === null;
 
                 $table = $object['class']::getTable();
 
