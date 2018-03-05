@@ -119,7 +119,6 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers Cryo\Model::__set
      * @covers Cryo\Model::__get
-     * @covers Cryo\Model::generateKey
      * @covers Cryo\Model::getPrimaryKey
      */
     public function testSetsPropertyValue()

@@ -75,7 +75,9 @@ abstract class Model
             throw new InvalidArgumentException('Db and storage are not defined.');
         }
 
-        $this->state = array();
+        $this->state = array(
+            '__key' => Key::generate(get_class($this), array(null))
+        );
 
         $this->load($data);
     }
@@ -119,8 +121,11 @@ abstract class Model
 
         $this->state[$name] = static::$properties[$name]->validate($value);
 
-        if (in_array($name, self::getPrimaryKey())) {
-            $this->state['__key'] = (string)$this->generateKey();
+        $pk = self::getPrimaryKey();
+
+        if (in_array($name, $pk)) {
+            $id = array_intersect_key($this->state, array_flip($pk));
+            $this->state['__key']->setId($id);
         }
     }
 
@@ -383,19 +388,6 @@ abstract class Model
     public function toJson(): string
     {
         return json_encode($this->dump());
-    }
-
-    /**
-     * Creates a new key for the object.
-     *
-     * @return \Cryo\Key
-     */
-    private function generateKey(): Key
-    {
-        $pk = self::getPrimaryKey();
-        $id = array_intersect_key($this->state, array_flip($pk));
-
-        return Key::generate(get_class($this), $id);
     }
 
     /**

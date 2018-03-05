@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "387ba47f2c8b77a92aa5c5648504d7b1",
+    "content-hash": "981a3d2b5ffebab38dedfa787698e526",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -82,16 +82,16 @@
         },
         {
             "name": "shinjin/freezer",
-            "version": "0.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shinjin/freezer.git",
-                "reference": "964475df9c0d64635441491b8a9fc190a5c5993d"
+                "reference": "a6e8f16ece548b3d280e0e97bf035081719d3731"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shinjin/freezer/zipball/964475df9c0d64635441491b8a9fc190a5c5993d",
-                "reference": "964475df9c0d64635441491b8a9fc190a5c5993d",
+                "url": "https://api.github.com/repos/shinjin/freezer/zipball/a6e8f16ece548b3d280e0e97bf035081719d3731",
+                "reference": "a6e8f16ece548b3d280e0e97bf035081719d3731",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +125,7 @@
                 "object storage",
                 "object store"
             ],
-            "time": "2018-03-01T22:44:04+00:00"
+            "time": "2018-03-05T18:08:43+00:00"
         },
         {
             "name": "shinjin/pdo",
@@ -2389,7 +2389,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "shinjin/freezer": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

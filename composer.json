@@ -12,7 +12,7 @@
     ],
     "require": {
         "php": "^7.2",
-        "shinjin/freezer": "^0",
+        "shinjin/freezer": "dev-master",
         "shinjin/pdo": "^0"
     },
     "require-dev": {
