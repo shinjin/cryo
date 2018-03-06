@@ -53,7 +53,7 @@ abstract class Model
      * @var array
      */
     protected static $only = array(
-        'dump' => array('__freezer'),
+        'dump' => array(),
         'load' => array('__freezer', '__key')
     );
 
@@ -415,7 +415,7 @@ abstract class Model
      */
     private static function initializeProperties()
     {
-        static::$properties['__freezer'] = array();
+        static::$properties['__freezer'] = array('only' => 'dump');
         static::$properties['__key']     = array('type' => 'key');
 
         foreach(static::$properties as $name => &$property) {
