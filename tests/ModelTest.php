@@ -371,6 +371,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers  Cryo\Model::put
+     * @covers  Cryo\Key::setId
      * @covers  Cryo\Freezer\Storage\Cryo::doStore
      * @covers  Cryo\Freezer\Storage\Cryo::makeValuesForDb
      * @depends testPutInsertsObject

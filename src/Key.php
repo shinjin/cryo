@@ -54,7 +54,7 @@ class Key
      *
      * @return \Cryo\Key
      */
-    public static function generate(string $class, $id): Key
+    public static function generate(string $class, $id = null): Key
     {
         $key = new static;
         $key->class = $class;
@@ -97,7 +97,13 @@ class Key
      */
     public function setId($id): void
     {
-        $this->id = array_values((array)$id);
+        $id = (array)$id;
+
+        if (count($id) === 1 && current($id) === null) {
+            $id = array(uniqid());
+        }
+
+        $this->id = array_values($id);
     }
 
     /**

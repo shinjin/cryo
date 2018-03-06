@@ -76,7 +76,7 @@ abstract class Model
         }
 
         $this->state = array(
-            '__key' => Key::generate(get_class($this), array(null))
+            '__key' => Key::generate(get_class($this))
         );
 
         $this->load($data);
@@ -297,12 +297,6 @@ abstract class Model
      */
     public function put(): void
     {
-        $id = $this->state['__key']->getId();
-
-        if (count($id) === 1 && current($id) === null) {
-            $this->state['__key']->setId(array(uniqid()));
-        }
-
         self::$storage->store($this);
     }
 
