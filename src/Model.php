@@ -54,7 +54,7 @@ abstract class Model
      */
     protected static $only = array(
         'dump' => array('__freezer'),
-        'load' => array()
+        'load' => array('__freezer', '__key')
     );
 
     /**
@@ -182,9 +182,7 @@ abstract class Model
             self::initializeProperties();
         }
 
-        $properties = static::$properties;
-        unset($properties['__key']);
-        return $properties;
+        return array_diff_key(static::$properties, array('__key' => null));
     }
 
     /**
@@ -197,10 +195,12 @@ abstract class Model
         return function($object) {
             $result = array();
             foreach ($object->getProperties() as $name => $property) {
+                // ignore all properties that start with an underscore
                 if (strpos($name, '_') !== 0) {
                     $result[$name] = $object->{$name};
                 }
             }
+            // except __freezer
             $result['__freezer'] = $object->__freezer;
             return $result;
         };
@@ -415,8 +415,8 @@ abstract class Model
      */
     private static function initializeProperties()
     {
-        static::$properties['__key'] = array('type' => 'key', 'only' => 'load');
-        static::$properties['__freezer'] = array('only' => 'load');
+        static::$properties['__freezer'] = array();
+        static::$properties['__key']     = array('type' => 'key');
 
         foreach(static::$properties as $name => &$property) {
             $property = self::generateProperty($name, $property);
