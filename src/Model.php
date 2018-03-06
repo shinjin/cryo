@@ -295,7 +295,7 @@ abstract class Model
             );
         }
 
-        return new Key($this->__get('__key'));
+        return $this->state['__key'];
     }
 
     /**
@@ -324,7 +324,7 @@ abstract class Model
             throw new NotSavedException('Object has not been saved.');
         }
 
-        return self::$db->delete(static::$table, $this->getKey()->getIdPair());
+        return self::$db->delete(static::$table, $this->state['__key']->getIdPair());
     }
 
     /**
@@ -428,7 +428,7 @@ abstract class Model
      */
     private static function initializeProperties()
     {
-        static::$properties['__key']     = array('only' => 'load');
+        static::$properties['__key'] = array('type' => 'key', 'only' => 'load');
         static::$properties['__freezer'] = array('only' => 'load');
 
         foreach(static::$properties as $name => &$property) {
