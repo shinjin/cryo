@@ -230,7 +230,7 @@ abstract class Model
             array_push($objects, self::$storage->fetch((string)$key));
         }
 
-        return count($objects) === 1 ? current($objects) : $objects;
+        return count($objects) === 1 ? $objects[0] : $objects;
     }
 
     /**
@@ -252,7 +252,7 @@ abstract class Model
             array_push($objects, self::$storage->fetch((string)$key));
         }
 
-        return count($objects) === 1 ? current($objects) : $objects;
+        return count($objects) === 1 ? $objects[0] : $objects;
     }
 
     /**
