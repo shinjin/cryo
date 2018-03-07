@@ -52,7 +52,7 @@ abstract class DatabaseTestCase extends TestCase
     {
         $this->traitSetUp();
 
-        Model::initializeStorage(self::$pdo);
+        Model::initializeDb(self::$pdo);
     }
 
     private function createTables()

@@ -213,11 +213,11 @@ class ModelTest extends DatabaseTestCase
     }
 
     /**
-     * @covers Cryo\Model::initializeStorage
+     * @covers Cryo\Model::initializeDb
      */
     public function testCreatesDbAndStorageObjects()
     {
-        Model::initializeStorage(self::$pdo);
+        Model::initializeDb(self::$pdo);
 
         $reflector = new \ReflectionClass('\\Cryo\\Model');
         $db = $reflector->getProperty('db');
@@ -230,12 +230,12 @@ class ModelTest extends DatabaseTestCase
     }
 
     /**
-     * @covers Cryo\Model::initializeStorage
+     * @covers Cryo\Model::initializeDb
      * @expectedException \Cryo\Exception\InvalidArgumentException
      */
-    public function testInitializeStorageThrowsExceptionIfArgumentIsInvalid()
+    public function testInitializeDbThrowsExceptionIfArgumentIsInvalid()
     {
-        Model::initializeStorage(null);
+        Model::initializeDb(null);
     }
 
     /**

@@ -257,7 +257,7 @@ abstract class Model
      *
      * @param \Pdo|array $pdo The PDO object or array of db parameters.
      */
-    public static function initializeStorage($pdo): void
+    public static function initializeDb($pdo): void
     {
         try {
             self::$db = new Db($pdo);
@@ -414,10 +414,8 @@ abstract class Model
             $property = self::createProperty($name, $property);
 
             $only = $property->getOnly();
-            if (!empty($only)) {
-                if (!in_array($name, static::$only[$only])) {
-                    array_push(static::$only[$only], $name);
-                }
+            if (!empty($only) && !in_array($name, static::$only[$only])) {
+                array_push(static::$only[$only], $name);
             }
         }
     }
