@@ -263,7 +263,7 @@ abstract class Model
             self::$db = new Db($pdo);
         } catch(\Shinjin\Pdo\Exception\InvalidArgumentException $e) {
             throw new InvalidArgumentException(
-                'initializeStorage arg must be a pdo object or array.'
+                'initializeDb arg must be a pdo object or array.'
             );
         }
 
