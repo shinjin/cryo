@@ -3,36 +3,23 @@ namespace Cryo\Freezer\Storage;
 
 use Cryo\Key;
 use Freezer\Freezer;
-use Freezer\Storage;
 use Freezer\Exception\InvalidArgumentException;
+use Freezer\Storage\Pdo;
 use Shinjin\Pdo\Db;
 
-class Cryo extends Storage
+class Cryo extends Pdo
 {
     /**
-     * @var Shinjin\Pdo\Db
-     */
-    private $db;
-
-    /**
-     * Constructor.
-     *
-     * @param  \PDO|array      $pdo         PDO object or array of db parameters
-     * @param  Freezer\Freezer $freezer     Freezer instance to be used
-     * @param  boolean         $useLazyLoad Flag that controls whether objects
-     *                                      are fetched using lazy load or not
-     * @param  array           $db_options  PDO options
-     * @throws InvalidArgumentException
+     * @inheritdoc
      */
     public function __construct(
-        Db $db,
+        $db,
         Freezer $freezer = null,
         $useLazyLoad = false,
+        $table = 'cryo',
         array $db_options = array()
     ){
-        parent::__construct($freezer, $useLazyLoad);
-
-        $this->db = $db;
+        parent::__construct($db, $freezer, $useLazyLoad, $table, $db_options);
     }
 
     /**

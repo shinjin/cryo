@@ -86,12 +86,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/shinjin/freezer.git",
-                "reference": "a6e8f16ece548b3d280e0e97bf035081719d3731"
+                "reference": "c5e236d446d6fbbfe7cccbc35717ac7e7c356931"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shinjin/freezer/zipball/a6e8f16ece548b3d280e0e97bf035081719d3731",
-                "reference": "a6e8f16ece548b3d280e0e97bf035081719d3731",
+                "url": "https://api.github.com/repos/shinjin/freezer/zipball/c5e236d446d6fbbfe7cccbc35717ac7e7c356931",
+                "reference": "c5e236d446d6fbbfe7cccbc35717ac7e7c356931",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +125,7 @@
                 "object storage",
                 "object store"
             ],
-            "time": "2018-03-05T18:08:43+00:00"
+            "time": "2018-03-07T06:58:59+00:00"
         },
         {
             "name": "shinjin/pdo",
@@ -1953,7 +1953,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -2015,7 +2015,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -2083,7 +2083,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -2191,7 +2191,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -2240,7 +2240,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.0.5",
+            "version": "v4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
