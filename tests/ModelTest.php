@@ -47,7 +47,7 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::load
      * @covers Cryo\Model::getProperties
      * @covers Cryo\Model::initializeProperties
-     * @covers Cryo\Model::generateProperty
+     * @covers Cryo\Model::createProperty
      */
     public function testConstructorWithDefaultArguments()
     {
@@ -84,7 +84,7 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::load
      * @covers Cryo\Model::getProperties
      * @covers Cryo\Model::initializeProperties
-     * @covers Cryo\Model::generateProperty
+     * @covers Cryo\Model::createProperty
      * @expectedException InvalidArgumentException
      */
     public function testConstructorThrowsExceptionIfPropertyIsInvalid()

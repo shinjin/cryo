@@ -99,8 +99,7 @@ abstract class Model
     }
 
     /**
-     * Validates and sets the object property value. Generates a new key for
-     * id properties.
+     * Validates and sets the object property value.
      *
      * @param string $name  Property name
      * @param mixed  $value Property value
@@ -388,7 +387,7 @@ abstract class Model
      *
      * @return \Cryo\Property
      */
-    private static function generateProperty(string $name, array $params): Property
+    private static function createProperty(string $name, array $params): Property
     {
         $params = array_replace(Property::DEFAULT_PARAMS, $params);
         $class  = sprintf('\\Cryo\\Property\\%sProperty', ucfirst($params['type']));
@@ -412,7 +411,7 @@ abstract class Model
         static::$properties['__key']     = array('type' => 'key');
 
         foreach(static::$properties as $name => &$property) {
-            $property = self::generateProperty($name, $property);
+            $property = self::createProperty($name, $property);
 
             $only = $property->getOnly();
             if (!empty($only)) {
