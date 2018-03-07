@@ -173,13 +173,14 @@ abstract class Model
      *
      * @return array
      */
-    public static function getProperties(): array
+    public static function getProperties($blacklist = array()): array
     {
         if (!current(static::$properties) instanceof Property) {
             self::initializeProperties();
         }
 
-        return array_diff_key(static::$properties, array('__key' => null));
+        array_push($blacklist, '__key');
+        return array_diff_key(static::$properties, array_flip($blacklist));
     }
 
     /**
@@ -330,12 +331,7 @@ abstract class Model
      */
     public function load(array $state, bool $strict = true)
     {
-        $properties = array_diff_key(
-            self::getProperties(),
-            array_flip(static::$only['dump'])
-        );
-
-        foreach($properties as $name => $property)
+        foreach(self::getProperties(static::$only['dump']) as $name => $property)
         {
             $this->__set($name, $state[$name] ?? $property->getDefaultValue());
         }
