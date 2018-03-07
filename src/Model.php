@@ -67,19 +67,16 @@ abstract class Model
     /**
      * Constructor
      *
-     * @param array $data A list of values to assign to the object.
+     * @param array $state List of property values to assign to the object.
      */
-    public function __construct(array $data = array())
+    public function __construct(array $state = array())
     {
         if (!self::$db instanceof Db) {
             throw new InvalidArgumentException('Db and storage are not defined.');
         }
 
-        $this->state = array(
-            '__key' => Key::generate(get_class($this))
-        );
-
-        $this->load($data);
+        $this->state = array('__key' => Key::generate(get_class($this)));
+        $this->load($state);
     }
 
     /**
@@ -328,10 +325,10 @@ abstract class Model
     /**
      * Filters the input data and assigns them to the object.
      *
-     * @param  array $data The list of property values to assign to the object.
+     * @param  array $state The list of property values to assign to the object.
      *
      */
-    public function load(array $data, bool $strict = true)
+    public function load(array $state, bool $strict = true)
     {
         $properties = array_diff_key(
             self::getProperties(),
@@ -340,7 +337,7 @@ abstract class Model
 
         foreach($properties as $name => $property)
         {
-            $this->__set($name, $data[$name] ?? $property->getDefaultValue());
+            $this->__set($name, $state[$name] ?? $property->getDefaultValue());
         }
     }
 
