@@ -261,7 +261,7 @@ abstract class Model
     {
         try {
             self::$db = new Db($pdo);
-        } catch(\Shinjin\Pdo\Exception\InvalidArgumentException $e) {
+        } catch(\InvalidArgumentException $e) {
             throw new InvalidArgumentException(
                 'initializeDb arg must be a pdo object or array.'
             );
