@@ -53,7 +53,7 @@ abstract class Model
      * @var array
      */
     protected static $only = array(
-        'dump' => array(),
+        'dump' => array('__freezer', '__key'),
         'load' => array('__freezer', '__key')
     );
 
@@ -344,12 +344,10 @@ abstract class Model
     public function isDirty(): bool
     {
         if ($this->isSaved()) {
-            $__freezer = (array)json_decode($this->state['__freezer'], true);
-
-            if (isset($__freezer['hash'])) {
+            if (isset($this->state['__freezer']['hash'])) {
                 $hash = self::$storage->getFreezer()->generateHash($this);
 
-                if ($__freezer['hash'] === $hash) {
+                if ($this->state['__freezer']['hash'] === $hash) {
                     return false;
                 }
             }
@@ -407,7 +405,7 @@ abstract class Model
      */
     private static function initializeProperties()
     {
-        static::$properties['__freezer'] = array('only' => 'dump');
+        static::$properties['__freezer'] = array('type' => 'array');
         static::$properties['__key']     = array('type' => 'key');
 
         foreach(static::$properties as $name => &$property) {

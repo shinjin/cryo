@@ -37,13 +37,13 @@ abstract class DatabaseTestCase extends TestCase
         return $this->createArrayDataSet(array(
             'entry' => array(
                 array('id' => 1, 'content' => 'Hello buddy!', 'author' => 1, 'created' => '2010-04-24', '__freezer' => '{"hash":"9dc61df140467bc68efc0432cdc59a4f5fa39ae1"}'),
-                array('id' => 2, 'content' => 'I like it!',   'author' => 2, 'created' => '2010-04-26'),
-                array('id' => 3, 'content' => 'Hello world!', 'author' => 3, 'created' => '2010-05-01')
+                array('id' => 2, 'content' => 'I like it!',   'author' => 2, 'created' => '2010-04-26', '__freezer' => '{}'),
+                array('id' => 3, 'content' => 'Hello world!', 'author' => 3, 'created' => '2010-05-01', '__freezer' => '{}')
             ),
             'author' => array(
-                array('id' => 1, 'name' => 'joe'),
-                array('id' => 2, 'name' => 'nancy'),
-                array('id' => 3, 'name' => 'suzy')
+                array('id' => 1, 'name' => 'joe', '__freezer' => '{}'),
+                array('id' => 2, 'name' => 'nancy', '__freezer' => '{}'),
+                array('id' => 3, 'name' => 'suzy', '__freezer' => '{}')
             ),
         ));
     }
