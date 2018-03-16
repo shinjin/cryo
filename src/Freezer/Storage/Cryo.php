@@ -48,37 +48,39 @@ class Cryo extends Storage
 
         foreach ($objects as $key => $object) {
             if ($object['isDirty'] === true) {
-                // extract id from object
-                $pk = $object['class']::getPrimaryKey();
-                $id = array_intersect_key($object['state'], array_flip($pk));
-                $isAutoIncrementId = count($id) === 1 && current($id) === null;
-
                 $table = $object['class']::getTable();
 
-                // loop through state and format values for db
-                $values = $this->makeValuesForDb(
-                    $object['class'],
-                    $object['state'],
-                    $keys
-                );
+                if (!empty($table)) {
+                    // extract id from object
+                    $pk = $object['class']::getPrimaryKey();
+                    $id = array_intersect_key($object['state'], array_flip($pk));
+                    $isAutoIncrementId = count($id) === 1 && current($id) === null;
 
-                // if key is set try update
-                if (!$isAutoIncrementId) {
-                    $updates = $this->db->update($table, $values, $id);
-                    $keys[$key] = current($id);
-                }
+                    // loop through state and format values for db
+                    $values = $this->makeValuesForDb(
+                        $object['class'],
+                        $object['state'],
+                        $keys
+                    );
 
-                // if record not updated try insert
-                if (empty($updates)) {
-                    if ($isAutoIncrementId) {
-                       $values = array_diff_key($values, $id);
+                    // if key is set try update
+                    if (!$isAutoIncrementId) {
+                        $updates = $this->db->update($table, $values, $id);
+                        $keys[$key] = current($id);
                     }
 
-                    $this->db->insert($table, $values);
+                    // if record not updated try insert
+                    if (empty($updates)) {
+                        if ($isAutoIncrementId) {
+                           $values = array_diff_key($values, $id);
+                        }
 
-                    // if autoincrement id, add to mapping
-                    if ($isAutoIncrementId) {
-                        $keys[$key] = (integer)$this->db->lastInsertId();
+                        $this->db->insert($table, $values);
+
+                        // if autoincrement id, add to mapping
+                        if ($isAutoIncrementId) {
+                            $keys[$key] = (integer)$this->db->lastInsertId();
+                        }
                     }
                 }
             }
