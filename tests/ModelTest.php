@@ -5,6 +5,7 @@ use Cryo\Model;
 use Cryo\Test\Model\Author;
 use Cryo\Test\Model\Entry;
 use Cryo\Test\Model\EntryArray;
+use Cryo\Test\Model\Expando;
 
 class ModelTest extends DatabaseTestCase
 {
@@ -312,6 +313,17 @@ class ModelTest extends DatabaseTestCase
     public function testGetThrowsExceptionIfObjectDoesNotExist()
     {
         Entry::get(5);
+    }
+
+    /**
+     * @covers  Cryo\Model::get
+     * @covers  Cryo\Model::getByKey
+     * @covers  Cryo\Freezer\Storage\Cryo::doFetch
+     * @expectedException \Freezer\Exception\ObjectNotFoundException
+     */
+    public function testGetThrowsExceptionIfObjectTableNotDefined()
+    {
+        Expando::get(1);
     }
 
     /**

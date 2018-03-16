@@ -99,18 +99,22 @@ class Cryo extends Storage
             $class = $key->getClass();
             $table = $class::getTable();
 
-            $filter = $this->db->buildQueryFilter($key->getIdPair());
-            $stmt = sprintf('SELECT * FROM %s WHERE %s', $table, $filter);
-            $stmt = $this->db->query($stmt, $key->getId());
+            if (!empty($table)) {
+                $filter = $this->db->buildQueryFilter($key->getIdPair());
+                $stmt = sprintf('SELECT * FROM %s WHERE %s', $table, $filter);
+                $stmt = $this->db->query($stmt, $key->getId());
 
-            if (($result = $stmt->fetch(\PDO::FETCH_ASSOC)) !== false) {
-                $object = array(
-                    'class'   => $class,
-                    'isDirty' => false,
-                    'state'   => array(
-                        'state' => $this->makeValuesFromDb($class, $result)
-                    )
-                );
+                if (($result = $stmt->fetch(\PDO::FETCH_ASSOC)) !== false) {
+                    $object = array(
+                        'class'   => $class,
+                        'isDirty' => false,
+                        'state'   => array(
+                            'state' => $this->makeValuesFromDb($class, $result)
+                        )
+                    );
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
