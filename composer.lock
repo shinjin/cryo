@@ -86,12 +86,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/shinjin/freezer.git",
-                "reference": "47c9c1d90bd2595fa325260cf1b49ce6b0d1125f"
+                "reference": "6912f618249fa0b748793573ef7a47eb3fcf302d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shinjin/freezer/zipball/47c9c1d90bd2595fa325260cf1b49ce6b0d1125f",
-                "reference": "47c9c1d90bd2595fa325260cf1b49ce6b0d1125f",
+                "url": "https://api.github.com/repos/shinjin/freezer/zipball/6912f618249fa0b748793573ef7a47eb3fcf302d",
+                "reference": "6912f618249fa0b748793573ef7a47eb3fcf302d",
                 "shasum": ""
             },
             "require": {
@@ -125,20 +125,20 @@
                 "object storage",
                 "object store"
             ],
-            "time": "2018-03-15T04:02:32+00:00"
+            "time": "2018-03-16T19:46:37+00:00"
         },
         {
             "name": "shinjin/pdo",
-            "version": "0.3",
+            "version": "0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shinjin/pdo.git",
-                "reference": "15e7c74059f0934024fdb0f33d59023ef3d7eab4"
+                "reference": "09276e7445af3d5bcffbf9c158a7b599a825cca3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shinjin/pdo/zipball/15e7c74059f0934024fdb0f33d59023ef3d7eab4",
-                "reference": "15e7c74059f0934024fdb0f33d59023ef3d7eab4",
+                "url": "https://api.github.com/repos/shinjin/pdo/zipball/09276e7445af3d5bcffbf9c158a7b599a825cca3",
+                "reference": "09276e7445af3d5bcffbf9c158a7b599a825cca3",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
                 "pdo",
                 "pdo wrapper"
             ],
-            "time": "2018-03-08T20:40:05+00:00"
+            "time": "2018-03-16T19:50:21+00:00"
         }
     ],
     "packages-dev": [

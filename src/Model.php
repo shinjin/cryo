@@ -71,10 +71,6 @@ abstract class Model
      */
     public function __construct(array $state = array())
     {
-        if (!self::$db instanceof Db) {
-            throw new InvalidArgumentException('Db and storage are not defined.');
-        }
-
         $this->state = array('__key' => Key::generate(get_class($this)));
         $this->load($state);
     }
@@ -145,6 +141,34 @@ abstract class Model
     public function __toString(): string
     {
         return $this->toJson();
+    }
+
+    /**
+     * Returns the db object.
+     *
+     * @return Shinjin\Pdo\Db
+     */
+    public static function getDb(): Db
+    {
+        if (empty(self::$db)) {
+            self::$db = self::createDb();
+        }
+
+        return self::$db;
+    }
+
+    /**
+     * Returns the Freezer storage object.
+     *
+     * @return Freezer\Storage
+     */
+    public static function getStorage(): Storage
+    {
+        if (empty(self::$storage)) {
+            self::$storage = self::createStorage();
+        }
+
+        return self::$storage;
     }
 
     /**
@@ -224,7 +248,7 @@ abstract class Model
 
         foreach($ids as $id) {
             $key = Key::generate($class, $id);
-            array_push($objects, self::$storage->fetch((string)$key));
+            array_push($objects, self::getStorage()->fetch((string)$key));
         }
 
         return count($objects) === 1 ? $objects[0] : $objects;
@@ -246,30 +270,10 @@ abstract class Model
         $objects = array();
 
         foreach($keys as $key) {
-            array_push($objects, self::$storage->fetch((string)$key));
+            array_push($objects, self::getStorage()->fetch((string)$key));
         }
 
         return count($objects) === 1 ? $objects[0] : $objects;
-    }
-
-    /**
-     * Creates the db and Freezer storage objects.
-     *
-     * @param \Pdo|array $pdo The PDO object or array of db parameters.
-     */
-    public static function initializeDb($pdo): void
-    {
-        try {
-            self::$db = new Db($pdo);
-        } catch(\InvalidArgumentException $e) {
-            throw new InvalidArgumentException(
-                'initializeDb arg must be a pdo object or array.'
-            );
-        }
-
-        $freezer = new Freezer('__key', self::getPropertyReader());
-
-        self::$storage = new Cryo(self::$db, $freezer);
     }
 
     /**
@@ -294,7 +298,7 @@ abstract class Model
      */
     public function put(): void
     {
-        self::$storage->store($this);
+        self::getStorage()->store($this);
     }
 
     /**
@@ -308,7 +312,8 @@ abstract class Model
             throw new NotSavedException('Object has not been saved.');
         }
 
-        return self::$db->delete(static::$table, $this->state['__key']->getIdPair());
+        $id = $this->state['__key']->getIdPair();
+        return self::getDb()->delete(static::$table, $id);
     }
 
     /**
@@ -345,7 +350,7 @@ abstract class Model
     {
         if ($this->isSaved()) {
             if (isset($this->state['__freezer']['hash'])) {
-                $hash = self::$storage->getFreezer()->generateHash($this);
+                $hash = self::getStorage()->getFreezer()->generateHash($this);
 
                 if ($this->state['__freezer']['hash'] === $hash) {
                     return false;
@@ -378,6 +383,37 @@ abstract class Model
     public function toJson(): string
     {
         return json_encode($this->dump());
+    }
+
+    /**
+     * Creates a new Db object.
+     *
+     * @return \Shinjin\Pdo\Db
+     */
+    private static function createDb(): Db
+    {
+        return new Db(
+            array(
+                'driver'   => getenv('DB_DRIVER'),
+                'dbname'   => getenv('DB_DBNAME'),
+                'host'     => getenv('DB_HOST'),
+                'port'     => getenv('DB_PORT'),
+                'user'     => getenv('DB_USER'),
+                'password' => getenv('DB_PASSWORD'),
+                'dsn'      => getenv('DB_DSN')
+            )
+        );
+    }
+
+    /**
+     * Creates a new Freezer storage object.
+     *
+     * @return \Freezer\Storage
+     */
+    private static function createStorage(): Storage
+    {
+        $freezer = new Freezer('__key', self::getPropertyReader());
+        return new Cryo(self::getDb(), $freezer);
     }
 
     /**

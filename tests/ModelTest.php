@@ -68,20 +68,6 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::__construct
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorThrowsExceptionIfStorageIsNotInitialized()
-    {
-        $reflector = new \ReflectionClass('\\Cryo\\Model');
-        $db = $reflector->getProperty('db');
-        $db->setAccessible(true);
-        $db->setValue(null);
-
-        new Entry;
-    }
-
-    /**
-     * @covers Cryo\Model::__construct
      * @covers Cryo\Model::load
      * @covers Cryo\Model::getProperties
      * @covers Cryo\Model::initializeProperties
@@ -169,6 +155,35 @@ class ModelTest extends DatabaseTestCase
     }
 
     /**
+     * @covers Cryo\Model::getDb
+     * @covers Cryo\Model::createDb
+     */
+    public function testGetsDbObject()
+    {
+        $reflector = new \ReflectionClass('\\Cryo\\Model');
+        $db = $reflector->getProperty('db');
+        $db->setAccessible(true);
+        $db->setValue(null);
+
+        $this->assertInstanceOf('\\Shinjin\\Pdo\\Db', Model::getDb());
+    }
+
+    /**
+     * @covers Cryo\Model::getStorage
+     * @covers Cryo\Model::createStorage
+     * @covers Cryo\Model::getDb
+     */
+    public function testGetsStorageObject()
+    {
+        $reflector = new \ReflectionClass('\\Cryo\\Model');
+        $db = $reflector->getProperty('storage');
+        $db->setAccessible(true);
+        $db->setValue(null);
+
+        $this->assertInstanceOf('\\Cryo\\Freezer\\Storage\\Cryo', Model::getStorage());
+    }
+
+    /**
      * @covers Cryo\Model::getTable
      */
     public function testGetsModelTable()
@@ -214,33 +229,8 @@ class ModelTest extends DatabaseTestCase
     }
 
     /**
-     * @covers Cryo\Model::initializeDb
-     */
-    public function testCreatesDbAndStorageObjects()
-    {
-        Model::initializeDb(self::$pdo);
-
-        $reflector = new \ReflectionClass('\\Cryo\\Model');
-        $db = $reflector->getProperty('db');
-        $db->setAccessible(true);
-        $storage = $reflector->getProperty('storage');
-        $storage->setAccessible(true);
-
-        $this->assertInstanceOf('\\Shinjin\\Pdo\\Db', $db->getValue());
-        $this->assertInstanceOf('\\Cryo\\Freezer\\Storage\\Cryo', $storage->getValue());
-    }
-
-    /**
-     * @covers Cryo\Model::initializeDb
-     * @expectedException \Cryo\Exception\InvalidArgumentException
-     */
-    public function testInitializeDbThrowsExceptionIfArgumentIsInvalid()
-    {
-        Model::initializeDb(null);
-    }
-
-    /**
      * @covers Cryo\Model::getByKey
+     * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\Cryo::doFetch
      * @covers Cryo\Freezer\Storage\Cryo::makeValuesFromDb
      */
@@ -256,6 +246,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::getByKey
+     * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\Cryo::doFetch
      * @covers Cryo\Freezer\Storage\Cryo::makeValuesFromDb
      */
@@ -276,6 +267,7 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers  Cryo\Model::get
      * @covers  Cryo\Model::getByKey
+     * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Freezer\Storage\Cryo::doFetch
      * @covers  Cryo\Freezer\Storage\Cryo::makeValuesFromDb
      * @depends testGetsObjectByKey
@@ -291,6 +283,7 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers  Cryo\Model::get
      * @covers  Cryo\Model::getByKey
+     * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Freezer\Storage\Cryo::doFetch
      * @covers  Cryo\Freezer\Storage\Cryo::makeValuesFromDb
      * @depends testGetsMultipleObjectsByKeys
@@ -307,6 +300,7 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers  Cryo\Model::get
      * @covers  Cryo\Model::getByKey
+     * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Freezer\Storage\Cryo::doFetch
      * @expectedException \Freezer\Exception\ObjectNotFoundException
      */
@@ -318,6 +312,7 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers  Cryo\Model::get
      * @covers  Cryo\Model::getByKey
+     * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Freezer\Storage\Cryo::doFetch
      * @expectedException \Freezer\Exception\ObjectNotFoundException
      */
@@ -353,6 +348,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::put
+     * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\Cryo::doStore
      * @covers Cryo\Freezer\Storage\Cryo::makeValuesForDb
      */
@@ -369,6 +365,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::put
+     * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\Cryo::doStore
      * @covers Cryo\Freezer\Storage\Cryo::makeValuesForDb
      */
@@ -383,6 +380,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers  Cryo\Model::put
+     * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Key::setId
      * @covers  Cryo\Freezer\Storage\Cryo::doStore
      * @covers  Cryo\Freezer\Storage\Cryo::makeValuesForDb
@@ -401,6 +399,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::delete
+     * @covers Cryo\Model::getDb
      * @covers Cryo\Model::getTable
      * @expectedException \Freezer\Exception\ObjectNotFoundException
      */
@@ -415,6 +414,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::delete
+     * @covers Cryo\Model::getDb
      * @expectedException \Cryo\Exception\NotSavedException
      */
     public function testDeleteThrowsNotSavedException()
@@ -469,6 +469,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::isDirty
+     * @covers Cryo\Model::getStorage
      */
     public function testObjectIsDirty()
     {

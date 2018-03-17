@@ -52,7 +52,10 @@ abstract class DatabaseTestCase extends TestCase
     {
         $this->traitSetUp();
 
-        Model::initializeDb(self::$pdo);
+        $reflector = new \ReflectionClass('\\Cryo\\Model');
+        $db = $reflector->getProperty('db');
+        $db->setAccessible(true);
+        $db->setValue(new Db(self::$pdo));
     }
 
     private function createTables()
