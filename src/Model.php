@@ -164,11 +164,11 @@ abstract class Model
      */
     public static function getStorage(): Storage
     {
-        if (empty(self::$storage)) {
-            self::$storage = self::createStorage();
+        if (empty(static::$storage)) {
+            static::$storage = static::createStorage();
         }
 
-        return self::$storage;
+        return static::$storage;
     }
 
     /**
@@ -295,10 +295,11 @@ abstract class Model
     /**
      * Saves the object.
      *
+     * @return \Cryo\Key
      */
-    public function put(): void
+    public function put(): Key
     {
-        self::getStorage()->store($this);
+        return new Key(self::getStorage()->store($this));
     }
 
     /**

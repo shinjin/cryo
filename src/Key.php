@@ -97,13 +97,11 @@ class Key
      */
     public function setId($id): void
     {
-        $id = array_values((array)$id);
-
-        if (count($id) === 1 && $id[0] === null) {
-            $id = array(uniqid());
+        if (empty($id)) {
+            $id = uniqid();
         }
 
-        $this->id = $id;
+        $this->id = array_values((array)$id);
     }
 
     /**

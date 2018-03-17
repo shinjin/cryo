@@ -10,7 +10,7 @@ class ArrayPropertyTest extends TestCase
 
     protected function setUp()
     {
-        $params = array('reference' => '\\Cryo\\Test\\Model\\AuthorModel');
+        $params = array('reference' => '\\Cryo\\Test\\__files\\Author');
         $this->property = new ArrayProperty('test', $params);
     }
 
@@ -56,9 +56,9 @@ class ArrayPropertyTest extends TestCase
         $values = '[1,2,3]';
 
         $expected = array(
-            '__freezer_WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzFdXQ==',
-            '__freezer_WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzJdXQ==',
-            '__freezer_WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzNdXQ=='
+            '__freezer_WyJcXENyeW9cXFRlc3RcXF9fZmlsZXNcXEF1dGhvciIsWzFdXQ==',
+            '__freezer_WyJcXENyeW9cXFRlc3RcXF9fZmlsZXNcXEF1dGhvciIsWzJdXQ==',
+            '__freezer_WyJcXENyeW9cXFRlc3RcXF9fZmlsZXNcXEF1dGhvciIsWzNdXQ=='
         );
 
         $this->assertSame($expected, $this->property->makeValueFromDb($values));
@@ -72,10 +72,10 @@ class ArrayPropertyTest extends TestCase
         $values = '[1,2,[3]]';
 
         $expected = array(
-            '__freezer_WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzFdXQ==',
-            '__freezer_WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzJdXQ==',
+            '__freezer_WyJcXENyeW9cXFRlc3RcXF9fZmlsZXNcXEF1dGhvciIsWzFdXQ==',
+            '__freezer_WyJcXENyeW9cXFRlc3RcXF9fZmlsZXNcXEF1dGhvciIsWzJdXQ==',
             array(
-                '__freezer_WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzNdXQ=='
+                '__freezer_WyJcXENyeW9cXFRlc3RcXF9fZmlsZXNcXEF1dGhvciIsWzNdXQ=='
             )
         );
 

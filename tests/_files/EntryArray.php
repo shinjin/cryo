@@ -1,15 +1,15 @@
 <?php
-namespace Cryo\Test\Model;
+namespace Cryo\Test\_files;
 
 use Cryo\Model;
 
-class Entry extends Model
+class EntryArray extends Model
 {
     protected static $properties = array(
         'id' => array('type' => 'integer'),
         'author' => array(
-            'type' => 'object',
-            'reference' => 'Cryo\Test\Model\Author'
+            'type' => 'array',
+            'reference' => 'Cryo\Test\_files\Author'
         ),
         'content' => array('type' => 'string'),
         'created' => array('type' => 'string')

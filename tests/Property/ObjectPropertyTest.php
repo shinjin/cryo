@@ -10,7 +10,7 @@ class ObjectPropertyTest extends TestCase
 
     protected function setUp()
     {
-        $params = array('reference' => '\\Cryo\\Test\\Model\\AuthorModel');
+        $params = array('reference' => '\\Cryo\\Test\\_files\\Author');
         $this->property = new ObjectProperty('test', $params);
     }
 
@@ -38,7 +38,7 @@ class ObjectPropertyTest extends TestCase
      */
     public function testMakeValueFromDbReplacesDbValueWithFreezerValue()
     {
-        $expected = '__freezer_WyJcXENyeW9cXFRlc3RcXE1vZGVsXFxBdXRob3JNb2RlbCIsWzFdXQ==';
+        $expected = '__freezer_WyJcXENyeW9cXFRlc3RcXF9maWxlc1xcQXV0aG9yIixbMV1d';
 
         $this->assertSame($expected, $this->property->makeValueFromDb(1));
     }

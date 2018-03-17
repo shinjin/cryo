@@ -1,5 +1,5 @@
 <?php
-namespace Cryo\Test\Model;
+namespace Cryo\Test\_files;
 
 use Cryo\Model;
 

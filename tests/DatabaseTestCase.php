@@ -36,7 +36,7 @@ abstract class DatabaseTestCase extends TestCase
     {
         return $this->createArrayDataSet(array(
             'entry' => array(
-                array('id' => 1, 'content' => 'Hello buddy!', 'author' => 1, 'created' => '2010-04-24', '__freezer' => '{"hash":"9dc61df140467bc68efc0432cdc59a4f5fa39ae1"}'),
+                array('id' => 1, 'content' => 'Hello buddy!', 'author' => 1, 'created' => '2010-04-24', '__freezer' => '{"hash":"1c10ad155cdc8d00b2038af64c116aa2b13a8bf4"}'),
                 array('id' => 2, 'content' => 'I like it!',   'author' => 2, 'created' => '2010-04-26', '__freezer' => '{}'),
                 array('id' => 3, 'content' => 'Hello world!', 'author' => 3, 'created' => '2010-05-01', '__freezer' => '{}')
             ),
@@ -60,18 +60,23 @@ abstract class DatabaseTestCase extends TestCase
 
     private function createTables()
     {
+        self::$pdo->query('CREATE TABLE IF NOT EXISTS cryo (
+            id   text primary key,
+            body text
+        )');
+
         self::$pdo->query('CREATE TABLE IF NOT EXISTS entry (
             id        integer primary key,
-            content   varchar(255),
+            content   text,
             author    text,
             created   date,
-            __freezer varchar(255)
+            __freezer text
         )');
 
         self::$pdo->query('CREATE TABLE IF NOT EXISTS author (
             id        integer primary key,
-            name      varchar(255),
-            __freezer varchar(255)
+            name      text,
+            __freezer text
         )');
     }
 }

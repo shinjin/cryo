@@ -2,10 +2,9 @@
 namespace Cryo\Test;
 
 use Cryo\Model;
-use Cryo\Test\Model\Author;
-use Cryo\Test\Model\Entry;
-use Cryo\Test\Model\EntryArray;
-use Cryo\Test\Model\Expando;
+use Cryo\Test\_files\Author;
+use Cryo\Test\_files\Entry;
+use Cryo\Test\_files\EntryArray;
 
 class ModelTest extends DatabaseTestCase
 {
@@ -63,7 +62,7 @@ class ModelTest extends DatabaseTestCase
         );
 
         $this->assertSame($expected, $this->entry->dump());
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $this->entry);
+        $this->assertInstanceOf('\\Cryo\\Test\\_files\\Entry', $this->entry);
     }
 
     /**
@@ -237,10 +236,10 @@ class ModelTest extends DatabaseTestCase
     public function testGetsObjectByKey()
     {
         $entry = Entry::getByKey(
-            'WyJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsxXV0='
+            'WyJDcnlvXFxUZXN0XFxfZmlsZXNcXEVudHJ5IixbMV1d'
         );
 
-        $this->assertInstanceOf('Cryo\\Test\\Model\\Entry', $entry);
+        $this->assertInstanceOf('Cryo\\Test\\_files\\Entry', $entry);
         $this->assertEquals(1, $entry->id);
     }
 
@@ -254,12 +253,12 @@ class ModelTest extends DatabaseTestCase
     {
         $entries = Entry::getByKey(
             array(
-                'WyJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsxXV0=',
-                'WyJDcnlvXFxUZXN0XFxNb2RlbFxcRW50cnkiLFsyXV0='
+                'WyJDcnlvXFxUZXN0XFxfZmlsZXNcXEVudHJ5IixbMV1d',
+                'WyJDcnlvXFxUZXN0XFxfZmlsZXNcXEVudHJ5IixbMl1d'
             )
         );
 
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $entries[0]);
+        $this->assertInstanceOf('\\Cryo\\Test\\_files\\Entry', $entries[0]);
         $this->assertEquals(1, $entries[0]->id);
         $this->assertEquals(2, $entries[1]->id);
     }
@@ -276,7 +275,7 @@ class ModelTest extends DatabaseTestCase
     {
         $entry = Entry::get(1);
 
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $entry);
+        $this->assertInstanceOf('\\Cryo\\Test\\_files\\Entry', $entry);
         $this->assertEquals(1, $entry->id);
     }
 
@@ -292,7 +291,7 @@ class ModelTest extends DatabaseTestCase
     {
         $entries = Entry::get(array(1, 2));
 
-        $this->assertInstanceOf('\\Cryo\\Test\\Model\\Entry', $entries[0]);
+        $this->assertInstanceOf('\\Cryo\\Test\\_files\\Entry', $entries[0]);
         $this->assertEquals(1, $entries[0]->id);
         $this->assertEquals(2, $entries[1]->id);
     }
@@ -307,18 +306,6 @@ class ModelTest extends DatabaseTestCase
     public function testGetThrowsExceptionIfObjectDoesNotExist()
     {
         Entry::get(5);
-    }
-
-    /**
-     * @covers  Cryo\Model::get
-     * @covers  Cryo\Model::getByKey
-     * @covers  Cryo\Model::getStorage
-     * @covers  Cryo\Freezer\Storage\Cryo::doFetch
-     * @expectedException \Freezer\Exception\ObjectNotFoundException
-     */
-    public function testGetThrowsExceptionIfObjectTableNotDefined()
-    {
-        Expando::get(1);
     }
 
     /**
