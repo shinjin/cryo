@@ -16,7 +16,7 @@ class Pdo extends BasePdo
             $stmt = sprintf('SELECT * FROM %s WHERE id = ?', $this->table);
             $stmt = $this->db->query($stmt, array($id));
 
-            if (($result = $stmt->fetch()) !== false) {
+            if (($result = $stmt->fetch(\PDO::FETCH_ASSOC)) !== false) {
                 $object = json_decode($result['body'], true);
             } else {
                 return false;
