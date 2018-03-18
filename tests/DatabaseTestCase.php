@@ -35,6 +35,9 @@ abstract class DatabaseTestCase extends TestCase
     public function getDataSet()
     {
         return $this->createArrayDataSet(array(
+            'cryo' => array(
+                array('id' => 'WyJDcnlvXFxUZXN0XFxfZmlsZXNcXEV4cGFuZG8iLFsxXV0=', 'body' => '{"class":"Cryo\\\\Test\\\\_files\\\\Expando","state":{"__freezer":{"hash":"0732a755623247ccc1b1839893c4909e2248c7db"}}}')
+            ),
             'entry' => array(
                 array('id' => 1, 'content' => 'Hello buddy!', 'author' => 1, 'created' => '2010-04-24', '__freezer' => '{"hash":"1c10ad155cdc8d00b2038af64c116aa2b13a8bf4"}'),
                 array('id' => 2, 'content' => 'I like it!',   'author' => 2, 'created' => '2010-04-26', '__freezer' => '{}'),

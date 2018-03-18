@@ -3,10 +3,10 @@ namespace Cryo\Model;
 
 use Cryo\Model;
 use Cryo\Freezer\Storage\Cryo;
+use Cryo\Freezer\Storage\Pdo;
 use Freezer\Freezer;
 use Freezer\Storage;
 use Freezer\Storage\ChainStorage;
-use Freezer\Storage\Pdo;
 
 class Expando extends Model
 {

@@ -1,21 +1,30 @@
 <?php
 namespace Cryo\Test\Model;
 
+use Cryo\Test\_files\Author;
 use Cryo\Test\_files\Expando;
-use Cryo\Test\_files\ExpandoEntry;
+use Cryo\Test\_files\ExpandoHybrid;
 use Cryo\Test\DatabaseTestCase;
 
 class ExpandoTest extends DatabaseTestCase
 {
     private $expando;
-    private $entry;
+    private $hybrid;
 
     public function setUp()
     {
         parent::setUp();
 
         $this->expando = new Expando;
-        $this->entry   = new ExpandoEntry;
+        $this->hybrid  = new ExpandoHybrid(
+            array(
+                'id'      => 4,
+                'author'  => new Author(array('id'   => 4, 'name' => 'quinn')),
+                'content' => 'Hello world!',
+                'created' => '2016-04-13'
+            )
+        );
+
     }
 
     /**
@@ -25,8 +34,8 @@ class ExpandoTest extends DatabaseTestCase
      */
     public function testSetsFixedPropertyValue()
     {
-        $this->entry->id = 1;
-        $this->assertSame(1, $this->entry->id);
+        $this->hybrid->id = 1;
+        $this->assertSame(1, $this->hybrid->id);
     }
 
     /**
@@ -35,24 +44,64 @@ class ExpandoTest extends DatabaseTestCase
      */
     public function testSetsDynamicPropertyValue()
     {
-        $this->entry->dynamic = 1;
-        $this->assertSame(1, $this->entry->dynamic);
+        $this->hybrid->dynamic = 1;
+        $this->assertSame(1, $this->hybrid->dynamic);
+    }
+
+    /**
+     * @covers Cryo\Model::get
+     * @covers Cryo\Model::getStorage
+     * @covers Cryo\Model\Expando::createStorage
+     * @covers Cryo\Freezer\Storage\Pdo::doFetch
+     */
+    public function testGetsExpandoObject()
+    {
+        $expando = Expando::get(1);
+
+        $this->assertInstanceOf('Cryo\\Test\\_files\\Expando', $expando);
+        $this->assertSame(array(1), $expando->__key->getId());
+    }
+
+    /**
+     * @covers Cryo\Model::get
+     * @covers Cryo\Model::getStorage
+     * @covers Cryo\Model\Expando::createStorage
+     * @covers Cryo\Freezer\Storage\Pdo::doFetch
+     */
+    public function testGetsExpandoHybridObject()
+    {
+        $expando = ExpandoHybrid::get(2);
+
+        $this->assertInstanceOf('Cryo\\Test\\_files\\ExpandoHybrid', $expando);
+        $this->assertEquals(2, $expando->id);
+    }
+
+
+    /**
+     * @covers Cryo\Model::put
+     * @covers Cryo\Model::getStorage
+     * @covers Cryo\Model\Expando::createStorage
+     */
+    public function testPutInsertsExpandoObject()
+    {
+        $key = $this->expando->put();
+        $saved = Expando::getByKey($key);
+
+        $this->assertEquals($this->expando, $saved);
     }
 
     /**
      * @covers Cryo\Model::put
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Model\Expando::createStorage
-     * @covers Cryo\Freezer\Storage\Cryo::doFetch
-     * @covers Cryo\Freezer\Storage\Cryo::doStore
-     * @covers Cryo\Freezer\Storage\Cryo::makeValuesForDb
+     * @covers Cryo\Freezer\Storage\Pdo::doFetch
      */
-    public function testPutInsertsObject()
+    public function testPutInsertsExpandoHybridObject()
     {
-        $key = $this->expando->put();
-        $saved = Expando::getByKey($key);
+        $this->hybrid->put();
+        $saved = ExpandoHybrid::get(4);
 
-        $this->assertEquals($this->expando, $saved);
+        $this->assertEquals($this->hybrid, $saved);
     }
 
 }
