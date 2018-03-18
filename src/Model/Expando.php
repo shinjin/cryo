@@ -18,6 +18,18 @@ class Expando extends Model
     /**
      * @inherits
      */
+    public function __set(string $name, $value): void
+    {
+        if (!array_key_exists($name, static::$properties)) {
+            $this->state[$name] = $value;
+        } else {
+            parent::__set($name, $value);
+        }
+    }
+
+    /**
+     * @inherits
+     */
     protected static function createStorage(): Storage
     {
         $freezer = new Freezer('__key', self::getPropertyReader());

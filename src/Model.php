@@ -85,7 +85,7 @@ abstract class Model
      */
     public function &__get(string $name)
     {
-        if (!array_key_exists($name, static::$properties)) {
+        if (!array_key_exists($name, $this->state)) {
             throw new InvalidArgumentException(
                 sprintf('Property "%s" does not exist.', $name)
             );
@@ -222,7 +222,7 @@ abstract class Model
                 }
             }
             // except __freezer
-            $result['__freezer'] = $object->__freezer;
+            $result['__freezer'] = $object->__freezer ?? null;
             return $result;
         };
     }
