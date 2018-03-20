@@ -3,20 +3,20 @@ namespace Cryo\Test\Model;
 
 use Cryo\Test\_files\Author;
 use Cryo\Test\_files\Expando;
-use Cryo\Test\_files\ExpandoHybrid;
+use Cryo\Test\_files\ExpandoFixed;
 use Cryo\Test\DatabaseTestCase;
 
 class ExpandoTest extends DatabaseTestCase
 {
     private $expando;
-    private $hybrid;
+    private $fixed;
 
     public function setUp()
     {
         parent::setUp();
 
         $this->expando = new Expando;
-        $this->hybrid  = new ExpandoHybrid(
+        $this->fixed   = new ExpandoFixed(
             array(
                 'id'      => 4,
                 'author'  => new Author(array('id'   => 4, 'name' => 'quinn')),
@@ -34,8 +34,8 @@ class ExpandoTest extends DatabaseTestCase
      */
     public function testSetsFixedPropertyValue()
     {
-        $this->hybrid->id = 1;
-        $this->assertSame(1, $this->hybrid->id);
+        $this->fixed->id = 1;
+        $this->assertSame(1, $this->fixed->id);
     }
 
     /**
@@ -44,8 +44,8 @@ class ExpandoTest extends DatabaseTestCase
      */
     public function testSetsDynamicPropertyValue()
     {
-        $this->hybrid->dynamic = 1;
-        $this->assertSame(1, $this->hybrid->dynamic);
+        $this->fixed->dynamic = 1;
+        $this->assertSame(1, $this->fixed->dynamic);
     }
 
     /**
@@ -68,11 +68,11 @@ class ExpandoTest extends DatabaseTestCase
      * @covers Cryo\Model\Expando::createStorage
      * @covers Cryo\Freezer\Storage\Pdo::doFetch
      */
-    public function testGetsExpandoHybridObject()
+    public function testGetsExpandoFixedObject()
     {
-        $expando = ExpandoHybrid::get(2);
+        $expando = ExpandoFixed::get(2);
 
-        $this->assertInstanceOf('Cryo\\Test\\_files\\ExpandoHybrid', $expando);
+        $this->assertInstanceOf('Cryo\\Test\\_files\\ExpandoFixed', $expando);
         $this->assertEquals(2, $expando->id);
     }
 
@@ -96,12 +96,12 @@ class ExpandoTest extends DatabaseTestCase
      * @covers Cryo\Model\Expando::createStorage
      * @covers Cryo\Freezer\Storage\Pdo::doFetch
      */
-    public function testPutInsertsExpandoHybridObject()
+    public function testPutInsertsExpandoFixedObject()
     {
-        $this->hybrid->put();
-        $saved = ExpandoHybrid::get(4);
+        $this->fixed->put();
+        $saved = ExpandoFixed::get(4);
 
-        $this->assertEquals($this->hybrid, $saved);
+        $this->assertEquals($this->fixed, $saved);
     }
 
 }

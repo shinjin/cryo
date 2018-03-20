@@ -3,7 +3,7 @@ namespace Cryo\Test\_files;
 
 use Cryo\Model\Expando;
 
-class ExpandoHybrid extends Expando
+class ExpandoFixed extends Expando
 {
     protected static $properties = array(
         'id' => array('type' => 'integer'),
