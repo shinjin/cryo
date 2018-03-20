@@ -158,6 +158,16 @@ abstract class Model
     }
 
     /**
+     * Sets the db object.
+     *
+     * @return void
+     */
+    public static function setDb(Db $db): void
+    {
+        self::$db = $db;
+    }
+
+    /**
      * Returns the Freezer storage object.
      *
      * @return Freezer\Storage

@@ -168,6 +168,18 @@ class ModelTest extends DatabaseTestCase
     }
 
     /**
+     * @covers Cryo\Model::setDb
+     * @covers Cryo\Model::getDb
+     * @covers Cryo\Model::createDb
+     */
+    public function testSetsDbObject()
+    {
+        Model::setDb(new \Shinjin\Pdo\Db(self::$pdo));
+
+        $this->assertInstanceOf('\\Shinjin\\Pdo\\Db', Model::getDb());
+    }
+
+    /**
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Model::createStorage
      * @covers Cryo\Model::getDb
