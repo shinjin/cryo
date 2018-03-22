@@ -54,7 +54,7 @@ class Key
      *
      * @return \Cryo\Key
      */
-    public static function generate(string $class, $id = null): Key
+    public static function generate(string $class, $id): Key
     {
         $key = new static;
         $key->class = $class;
@@ -94,14 +94,17 @@ class Key
      *
      * @param string $id The object's id
      *
+     * @throws \Cryo\Exception\InvalidArgumentException
      */
     public function setId($id): void
     {
-        if (empty($id)) {
-            $id = uniqid();
+        $id = (array)$id;
+
+        if (empty($id) || count($id) !== count(array_filter($id))) {
+            throw new InvalidArgumentException('Id must be non-empty value.');
         }
 
-        $this->id = array_values((array)$id);
+        $this->id = array_values($id);
     }
 
     /**

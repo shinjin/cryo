@@ -78,7 +78,10 @@ abstract class Model
      */
     public function __construct(array $state = array())
     {
-        $this->state = array('__key' => Key::generate(get_class($this)));
+        $this->state = array(
+            '__key' => Key::generate(get_class($this), uniqid())
+        );
+
         $this->load($state);
     }
 
@@ -122,7 +125,7 @@ abstract class Model
 
         $primary_key = self::getPrimaryKey();
 
-        if (in_array($name, $primary_key)) {
+        if (in_array($name, $primary_key) && !empty($value)) {
             $id = array_intersect_key($this->state, array_flip($primary_key));
             $this->state['__key']->setId($id);
         }

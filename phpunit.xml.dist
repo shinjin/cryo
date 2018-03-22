@@ -21,6 +21,7 @@
             <exclude>
                 <file>./src/Db.php</file>
                 <file>./src/Query.php</file>
+                <file>./src/Model/PolyModel.php</file>
                 <directory>./src/Exception</directory>
             </exclude>
         </whitelist>

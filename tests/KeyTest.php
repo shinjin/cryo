@@ -112,6 +112,15 @@ class KeyTest extends DatabaseTestCase
     }
 
     /**
+     * @covers Cryo\Key::setId
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetIdThrowsExceptionIfIdIsEmpty()
+    {
+        $this->key->setId(null);
+    }
+
+    /**
      * @covers Cryo\Key::getIdPair
      * @covers Cryo\Key::setClass
      * @covers Cryo\Key::setId
