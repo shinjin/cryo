@@ -20,7 +20,7 @@ class Expando extends Model
      */
     public function __set(string $name, $value): void
     {
-        if (!array_key_exists($name, static::$properties)) {
+        if (!property_exists($this, $name)) {
             $this->state[$name] = $value;
         } else {
             parent::__set($name, $value);

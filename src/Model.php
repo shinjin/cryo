@@ -12,40 +12,33 @@ use Shinjin\Pdo\Db;
 abstract class Model
 {
     /**
-     * The db object.
+     * Db object.
      *
      * @var \Shinjin\Pdo\Db
      */
     protected static $db;
 
     /**
-     * The Freezer storage object.
+     * Freezer storage object.
      *
      * @var \Cryo\Freezer\Storage\Cryo
      */
     protected static $storage;
 
     /**
-     * The db table name.
+     * Db table name.
      *
      * @var string
      */
     protected static $table;
 
     /**
-     * The db table's primary key. Can be string or array of column names for
+     * Db table's primary key. Can be string or array of column names for
      * composite keys.
      *
      * @var string|array
      */
     protected static $primary_key = 'id';
-
-    /**
-     * A list that defines the model properties and parameters.
-     *
-     * @var array
-     */
-    protected static $properties;
 
     /**
      * A list of properties to only dump or only load.
@@ -56,6 +49,20 @@ abstract class Model
         'dump' => array('__freezer', '__key'),
         'load' => array('__freezer', '__key')
     );
+
+    /**
+     * Internal property that contains Freezer data.
+     *
+     * @var array
+     */
+    protected static $__freezer = array('type' => 'array');
+
+    /**
+     * Internal property that contains object key.
+     *
+     * @var array
+     */
+    protected static $__key = array('type' => 'key');
 
     /**
      * The object state.
@@ -105,13 +112,13 @@ abstract class Model
      */
     public function __set(string $name, $value): void
     {
-        if (!array_key_exists($name, static::$properties)) {
+        if (!property_exists($this, $name)) {
             throw new InvalidArgumentException(
                 sprintf('Property "%s" does not exist.', $name)
             );
         }
 
-        $this->state[$name] = static::$properties[$name]->validate($value);
+        $this->state[$name] = static::$$name->validate($value);
 
         $primary_key = self::getPrimaryKey();
 
@@ -208,12 +215,17 @@ abstract class Model
      */
     public static function getProperties($blacklist = array()): array
     {
-        if (!current(static::$properties) instanceof Property) {
-            self::initializeProperties();
+        $properties = array_diff_key(
+            get_class_vars(get_called_class()),
+            array_flip(self::getReservedProperties())
+        );
+
+        if (!current($properties) instanceof Property) {
+            self::initializeProperties($properties);
         }
 
         array_push($blacklist, '__key');
-        return array_diff_key(static::$properties, array_flip($blacklist));
+        return array_diff_key($properties, array_flip($blacklist));
     }
 
     /**
@@ -343,8 +355,9 @@ abstract class Model
      *
      * @param  array $state The list of property values to assign to the object.
      *
+     * @return void
      */
-    public function load(array $state, bool $strict = true)
+    public function load(array $state, bool $strict = true): void
     {
         foreach(self::getProperties(static::$only['dump']) as $name => $property)
         {
@@ -447,20 +460,36 @@ abstract class Model
     }
 
     /**
+     * Returns the reserved property names.
+     *
+     * @return array
+     */
+    private static function getReservedProperties(): array
+    {
+        return array_keys(
+            array_diff_key(
+                get_class_vars('\\Cryo\\Model'),
+                array_flip(array('__freezer', '__key'))
+            )
+        );
+    }
+
+    /**
      * Converts the property parameter array to property objects.
      *
+     * @return void
      */
-    private static function initializeProperties()
+    private static function initializeProperties(&$properties): void
     {
-        static::$properties['__freezer'] = array('type' => 'array');
-        static::$properties['__key']     = array('type' => 'key');
+        foreach($properties as $name => &$property) {
+            if (is_array($property)) {
+                $property = self::createProperty($name, $property);
+                static::$$name = $property;
 
-        foreach(static::$properties as $name => &$property) {
-            $property = self::createProperty($name, $property);
-
-            $only = $property->getOnly();
-            if (!empty($only) && !in_array($name, static::$only[$only])) {
-                array_push(static::$only[$only], $name);
+                $only = $property->getOnly();
+                if (!empty($only) && !in_array($name, static::$only[$only])) {
+                    array_push(static::$only[$only], $name);
+                }
             }
         }
     }

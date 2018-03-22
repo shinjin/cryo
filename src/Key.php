@@ -7,14 +7,14 @@ use Cryo\Exception\InvalidArgumentException;
 class Key
 {
     /**
-     * The object's class name.
+     * Object's class name.
      *
      * @var string
      */
     private $class;
 
     /**
-     * The object's id.
+     * Object's id.
      *
      * @var array
      */

@@ -5,15 +5,14 @@ use Cryo\Model;
 
 class EntryArray extends Model
 {
-    protected static $properties = array(
-        'id' => array('type' => 'integer'),
-        'author' => array(
-            'type' => 'array',
-            'reference' => 'Cryo\Test\_files\Author'
-        ),
-        'content' => array('type' => 'string'),
-        'created' => array('type' => 'string')
-    );
-
     protected static $table = 'entry';
+
+    protected static $id = array('type' => 'integer');
+    protected static $author = array(
+        'type' => 'array',
+        'reference' => 'Cryo\Test\_files\Author'
+    );
+    protected static $content = array('type' => 'string');
+    protected static $created = array('type' => 'string');
+
 }

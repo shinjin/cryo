@@ -18,21 +18,21 @@ abstract class Property
     );
 
     /**
-     * The property type
+     * Property type
      *
      * @var string
      */
     protected static $type;
 
     /**
-     * The property name
+     * Property name
      *
      * @var string
      */
     protected $name;
 
     /**
-     * A list of property parameters:
+     * List of property parameters:
      *
      * - type:     the value type
      * - default:  the default value

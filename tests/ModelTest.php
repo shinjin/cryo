@@ -77,11 +77,8 @@ class ModelTest extends DatabaseTestCase
     {
         new class extends \Cryo\Model
         {
-            protected static $properties = array(
-                'id'   => array('type' => 'integer'),
-                'name' => array('type' => 'invalid')
-            );
-            protected static $table = '';
+            protected static $id   = array('type' => 'integer');
+            protected static $name = array('type' => 'invalid');
         };
     }
 
@@ -212,6 +209,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::getProperties
+     * @covers Cryo\Model::getReservedProperties
      * @covers Cryo\Model::initializeProperties
      */
     public function testGetsObjectProperties()
