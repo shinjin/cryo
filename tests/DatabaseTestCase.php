@@ -78,5 +78,18 @@ abstract class DatabaseTestCase extends TestCase
             name      text,
             __freezer text
         )');
+
+        self::$pdo->query('CREATE TABLE IF NOT EXISTS poly_base (
+            id        integer primary key,
+            created   date,
+            __freezer text
+        )');
+
+        self::$pdo->query('CREATE TABLE IF NOT EXISTS poly_entry (
+            id        integer primary key,
+            content   text,
+            author    text,
+            __freezer text
+        )');
     }
 }

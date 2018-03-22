@@ -129,9 +129,13 @@ class Cryo extends Storage
 
     private function makeValuesForDb($class, array $data, array $keys)
     {
-        $values = array();
+        $blacklist = array_keys(
+            get_parent_class($class)::getProperties(array('__freezer'))
+        );
 
-        foreach($class::getProperties() as $name => $property) {
+        $values = array();
+ 
+        foreach($class::getProperties($blacklist) as $name => $property) {
             $values[$name] = $property->makeValueForDb($data[$name], $keys);
         }
 
