@@ -16,6 +16,10 @@ class PolyModel extends Model
         if (strpos($parent_class, 'Cryo\\Model') !== 0) {
             $parent = new $parent_class($this->state);
             $key = $parent->put();
+
+            foreach($key->getIdPair() as $name => $value) {
+                $this->{$name} = $value;
+            }
         }
 
         return new Key(self::getStorage()->store($this));

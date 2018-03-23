@@ -86,12 +86,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/shinjin/freezer.git",
-                "reference": "47faa5a7493f332d518810f15f7b0ce6563ff02c"
+                "reference": "98d19bfc3da41402558616e3ace8eeb4b405b4d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shinjin/freezer/zipball/47faa5a7493f332d518810f15f7b0ce6563ff02c",
-                "reference": "47faa5a7493f332d518810f15f7b0ce6563ff02c",
+                "url": "https://api.github.com/repos/shinjin/freezer/zipball/98d19bfc3da41402558616e3ace8eeb4b405b4d7",
+                "reference": "98d19bfc3da41402558616e3ace8eeb4b405b4d7",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +125,7 @@
                 "object storage",
                 "object store"
             ],
-            "time": "2018-03-18T16:11:58+00:00"
+            "time": "2018-03-23T02:12:04+00:00"
         },
         {
             "name": "shinjin/pdo",

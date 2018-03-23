@@ -46,8 +46,9 @@ class Cryo extends Storage
         // define old/new key mapping
         $keys = array();
 
-        foreach ($objects as $key => $object) {
+        foreach ($objects as $encodedKey => $object) {
             if ($object['isDirty'] === true) {
+                $key = new Key($encodedKey);
                 $table = $object['class']::getTable();
 
                 if (!empty($table)) {
@@ -66,7 +67,7 @@ class Cryo extends Storage
                     // if key is set try update
                     if (!$isAutoIncrementId) {
                         $updates = $this->db->update($table, $values, $id);
-                        $keys[$key] = current($id);
+                        $keys[$encodedKey] = current($id);
                     }
 
                     // if record not updated try insert
@@ -79,12 +80,15 @@ class Cryo extends Storage
 
                         // if autoincrement id, add to mapping
                         if ($isAutoIncrementId) {
-                            $keys[$key] = (integer)$this->db->lastInsertId();
+                            $keys[$encodedKey] = (integer)$this->db->lastInsertId();
+                            $key->setId($keys[$encodedKey]);
                         }
                     }
                 }
             }
         }
+
+        return $key;
     }
 
     /**
@@ -129,8 +133,11 @@ class Cryo extends Storage
 
     private function makeValuesForDb($class, array $data, array $keys)
     {
+        // filter out parent properties *except* primary key and __freezer
         $blacklist = array_keys(
-            get_parent_class($class)::getProperties(array('__freezer'))
+            get_parent_class($class)::getProperties(
+                array_merge($class::getPrimaryKey(), array('__freezer'))
+            )
         );
 
         $values = array();
