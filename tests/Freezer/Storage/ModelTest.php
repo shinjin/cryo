@@ -1,11 +1,11 @@
 <?php
 namespace Cryo\Test\Freezer\Storage;
 
-use Cryo\Freezer\Storage\Cryo;
+use Cryo\Freezer\Storage\Model;
 use Cryo\Test\DatabaseTestCase;
 use Shinjin\Pdo\Db;
 
-class CryoTest extends DatabaseTestCase
+class ModelTest extends DatabaseTestCase
 {
     public function setUp()
     {
@@ -13,14 +13,14 @@ class CryoTest extends DatabaseTestCase
     }
 
     /**
-     * @covers Cryo\Freezer\Storage\Cryo::__construct
+     * @covers Cryo\Freezer\Storage\Model::__construct
      */
     public function testConstructorWithDefaultArguments()
     {
         $db = new Db(array('driver' => 'sqlite'));
-        $storage = new Cryo($db);
+        $storage = new Model($db);
 
-        $this->assertInstanceOf('\\Cryo\\Freezer\\Storage\\Cryo', $storage);
+        $this->assertInstanceOf('\\Cryo\\Freezer\\Storage\\Model', $storage);
         $this->assertInstanceOf('\\Freezer\\Freezer', $storage->getFreezer());
         $this->assertFalse($storage->getUseLazyLoad());
     }

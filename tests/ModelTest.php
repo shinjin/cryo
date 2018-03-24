@@ -188,7 +188,7 @@ class ModelTest extends DatabaseTestCase
         $db->setAccessible(true);
         $db->setValue(null);
 
-        $this->assertInstanceOf('\\Cryo\\Freezer\\Storage\\Cryo', Model::getStorage());
+        $this->assertInstanceOf('\\Cryo\\Freezer\\Storage\\Model', Model::getStorage());
     }
 
     /**
@@ -240,8 +240,8 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers Cryo\Model::getByKey
      * @covers Cryo\Model::getStorage
-     * @covers Cryo\Freezer\Storage\Cryo::doFetch
-     * @covers Cryo\Freezer\Storage\Cryo::makeValuesFromDb
+     * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\Model::makeValuesFromDb
      */
     public function testGetsObjectByKey()
     {
@@ -256,8 +256,8 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers Cryo\Model::getByKey
      * @covers Cryo\Model::getStorage
-     * @covers Cryo\Freezer\Storage\Cryo::doFetch
-     * @covers Cryo\Freezer\Storage\Cryo::makeValuesFromDb
+     * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\Model::makeValuesFromDb
      */
     public function testGetsMultipleObjectsByKeys()
     {
@@ -277,8 +277,8 @@ class ModelTest extends DatabaseTestCase
      * @covers  Cryo\Model::get
      * @covers  Cryo\Model::getByKey
      * @covers  Cryo\Model::getStorage
-     * @covers  Cryo\Freezer\Storage\Cryo::doFetch
-     * @covers  Cryo\Freezer\Storage\Cryo::makeValuesFromDb
+     * @covers  Cryo\Freezer\Storage\Model::doFetch
+     * @covers  Cryo\Freezer\Storage\Model::makeValuesFromDb
      * @depends testGetsObjectByKey
      */
     public function testGetsObjectById()
@@ -293,8 +293,8 @@ class ModelTest extends DatabaseTestCase
      * @covers  Cryo\Model::get
      * @covers  Cryo\Model::getByKey
      * @covers  Cryo\Model::getStorage
-     * @covers  Cryo\Freezer\Storage\Cryo::doFetch
-     * @covers  Cryo\Freezer\Storage\Cryo::makeValuesFromDb
+     * @covers  Cryo\Freezer\Storage\Model::doFetch
+     * @covers  Cryo\Freezer\Storage\Model::makeValuesFromDb
      * @depends testGetsMultipleObjectsByKeys
      */
     public function testGetsMultipleObjectsByIds()
@@ -310,7 +310,7 @@ class ModelTest extends DatabaseTestCase
      * @covers  Cryo\Model::get
      * @covers  Cryo\Model::getByKey
      * @covers  Cryo\Model::getStorage
-     * @covers  Cryo\Freezer\Storage\Cryo::doFetch
+     * @covers  Cryo\Freezer\Storage\Model::doFetch
      * @expectedException \Freezer\Exception\ObjectNotFoundException
      */
     public function testGetThrowsExceptionIfObjectDoesNotExist()
@@ -322,8 +322,8 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::getKey
      * @covers Cryo\Model::get
      * @covers Cryo\Key::getId
-     * @covers Cryo\Freezer\Storage\Cryo::doFetch
-     * @covers Cryo\Freezer\Storage\Cryo::makeValuesFromDb
+     * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\Model::makeValuesFromDb
      */
     public function testGetsObjectKey()
     {
@@ -346,8 +346,8 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers Cryo\Model::put
      * @covers Cryo\Model::getStorage
-     * @covers Cryo\Freezer\Storage\Cryo::doStore
-     * @covers Cryo\Freezer\Storage\Cryo::makeValuesForDb
+     * @covers Cryo\Freezer\Storage\Model::doStore
+     * @covers Cryo\Freezer\Storage\Model::makeValuesForDb
      */
     public function testPutUpdatesObject()
     {
@@ -363,8 +363,8 @@ class ModelTest extends DatabaseTestCase
     /**
      * @covers Cryo\Model::put
      * @covers Cryo\Model::getStorage
-     * @covers Cryo\Freezer\Storage\Cryo::doStore
-     * @covers Cryo\Freezer\Storage\Cryo::makeValuesForDb
+     * @covers Cryo\Freezer\Storage\Model::doStore
+     * @covers Cryo\Freezer\Storage\Model::makeValuesForDb
      */
     public function testPutInsertsObject()
     {
@@ -379,8 +379,8 @@ class ModelTest extends DatabaseTestCase
      * @covers  Cryo\Model::put
      * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Key::setId
-     * @covers  Cryo\Freezer\Storage\Cryo::doStore
-     * @covers  Cryo\Freezer\Storage\Cryo::makeValuesForDb
+     * @covers  Cryo\Freezer\Storage\Model::doStore
+     * @covers  Cryo\Freezer\Storage\Model::makeValuesForDb
      * @depends testPutInsertsObject
      */
     public function testPutInsertsObjectWithAutoIncrementId()

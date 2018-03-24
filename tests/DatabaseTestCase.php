@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
 
 use Cryo\Model;
-use Cryo\Freezer\Storage\Cryo;
 use Freezer\Freezer;
 use Shinjin\Pdo\Db;
 

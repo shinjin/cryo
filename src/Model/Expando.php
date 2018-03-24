@@ -2,7 +2,7 @@
 namespace Cryo\Model;
 
 use Cryo\Model;
-use Cryo\Freezer\Storage\Cryo;
+use Cryo\Freezer\Storage\Model as ModelStorage;
 use Cryo\Freezer\Storage\Pdo;
 use Freezer\Freezer;
 use Freezer\Storage;
@@ -35,8 +35,8 @@ class Expando extends Model
         $freezer = new Freezer('__key', self::getPropertyReader());
         return new ChainStorage(
             array(
-                new  Pdo(self::getDb(), $freezer, false, 'cryo'),
-                new Cryo(self::getDb(), $freezer)
+                new Pdo(self::getDb(), $freezer, false, 'cryo'),
+                new ModelStorage(self::getDb(), $freezer)
             ),
             $freezer
         );

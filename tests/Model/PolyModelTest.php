@@ -27,19 +27,16 @@ class PolyModelTest extends DatabaseTestCase
     /**
      * @covers Cryo\Model\PolyModel::put
      * @covers Cryo\Model::getStorage
-     * @covers Cryo\Freezer\Storage\Cryo::doStore
-     * @covers Cryo\Freezer\Storage\Cryo::makeValuesForDb
+     * @covers Cryo\Freezer\Storage\Model::doStore
+     * @covers Cryo\Freezer\Storage\Model::makeValuesForDb
      */
-    public function testPutUpdatesPolyModelObject()
+    public function testPutInsertsPolyModelObject()
     {
-$this->entry->put();
-        // $entry = PolyEntry::get(1);
-        // $entry->content = '';
-        // $entry->put();
+        $this->entry->put();
 
-        // $saved = PolyEntry::get(1);
+        // $saved = PolyEntry::get(4);
 
-        // $this->assertSame($entry->content, $saved->content);
+        // $this->assertEquals($this->entry, $saved);
     }
 
 }

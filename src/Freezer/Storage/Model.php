@@ -7,7 +7,7 @@ use Freezer\Storage;
 use Freezer\Exception\InvalidArgumentException;
 use Shinjin\Pdo\Db;
 
-class Cryo extends Storage
+class Model extends Storage
 {
     /**
      * @var Shinjin\Pdo\Db

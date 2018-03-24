@@ -3,7 +3,7 @@ namespace Cryo;
 
 use Cryo\Exception\InvalidArgumentException;
 use Cryo\Exception\NotSavedException;
-use Cryo\Freezer\Storage\Cryo;
+use Cryo\Freezer\Storage\Model as ModelStorage;
 
 use Freezer\Freezer;
 use Freezer\Storage;
@@ -21,7 +21,7 @@ abstract class Model
     /**
      * Freezer storage object.
      *
-     * @var \Cryo\Freezer\Storage\Cryo
+     * @var \Cryo\Freezer\Storage\Model
      */
     protected static $storage;
 
@@ -440,7 +440,7 @@ abstract class Model
     private static function createStorage(): Storage
     {
         $freezer = new Freezer('__key', self::getPropertyReader());
-        return new Cryo(self::getDb(), $freezer);
+        return new ModelStorage(self::getDb(), $freezer);
     }
 
     /**
