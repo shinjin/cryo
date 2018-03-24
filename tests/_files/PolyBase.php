@@ -7,6 +7,5 @@ class PolyBase extends PolyModel
 {
     protected static $table = 'poly_base';
 
-    protected static $id      = array('type' => 'integer');
-    protected static $created = array('type' => 'string');
+    protected static $id = array('type' => 'integer');
 }

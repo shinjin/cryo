@@ -12,7 +12,7 @@ class Model extends Storage
     /**
      * @var Shinjin\Pdo\Db
      */
-    private $db;
+    protected $db;
 
     /**
      * Constructor.
@@ -44,11 +44,10 @@ class Model extends Storage
         $objects = array_reverse($frozenObject['objects']);
 
         // define old/new key mapping
-        $keys = array();
+        $keys = $frozenObject['keys'] ?? array();
 
-        foreach ($objects as $encodedKey => $object) {
+        foreach ($objects as $key => $object) {
             if ($object['isDirty'] === true) {
-                $key = new Key($encodedKey);
                 $table = $object['class']::getTable();
 
                 if (!empty($table)) {
@@ -61,13 +60,14 @@ class Model extends Storage
                     $values = $this->makeValuesForDb(
                         $object['class'],
                         $object['state'],
-                        $keys
+                        $keys,
+                        $frozenObject['blacklist'] ?? array()
                     );
 
                     // if key is set try update
                     if (!$isAutoIncrementId) {
                         $updates = $this->db->update($table, $values, $id);
-                        $keys[$encodedKey] = current($id);
+                        $keys[$key] = current($id);
                     }
 
                     // if record not updated try insert
@@ -80,15 +80,14 @@ class Model extends Storage
 
                         // if autoincrement id, add to mapping
                         if ($isAutoIncrementId) {
-                            $keys[$encodedKey] = (integer)$this->db->lastInsertId();
-                            $key->setId($keys[$encodedKey]);
+                            $keys[$key] = (integer)$this->db->lastInsertId();
                         }
                     }
                 }
             }
         }
 
-        return $key;
+        return $keys;
     }
 
     /**
@@ -131,17 +130,14 @@ class Model extends Storage
         }
     }
 
-    private function makeValuesForDb($class, array $data, array $keys)
-    {
-        // filter out parent properties *except* primary key and __freezer
-        $blacklist = array_keys(
-            get_parent_class($class)::getProperties(
-                array_merge($class::getPrimaryKey(), array('__freezer'))
-            )
-        );
-
+    private function makeValuesForDb(
+        $class,
+        array $data,
+        array $keys,
+        array $blacklist = array()
+    ){
         $values = array();
- 
+
         foreach($class::getProperties($blacklist) as $name => $property) {
             $values[$name] = $property->makeValueForDb($data[$name], $keys);
         }

@@ -3,25 +3,23 @@ namespace Cryo\Model;
 
 use Cryo\Key;
 use Cryo\Model;
+use Cryo\Freezer\Storage\PolyModel as PolyModelStorage;
+use Freezer\Freezer;
+use Freezer\Storage;
 
 class PolyModel extends Model
 {
     /**
      * @inherits
      */
-    public function put(): Key
+    protected static $storage;
+
+    /**
+     * @inherits
+     */
+    protected static function createStorage(): Storage
     {
-        $parent_class = get_parent_class($this);
-
-        if (strpos($parent_class, 'Cryo\\Model') !== 0) {
-            $parent = new $parent_class($this->state);
-            $key = $parent->put();
-
-            foreach($key->getIdPair() as $name => $value) {
-                $this->{$name} = $value;
-            }
-        }
-
-        return new Key(self::getStorage()->store($this));
+        $freezer = new Freezer('__key', self::getPropertyReader());
+        return new PolyModelStorage(self::getDb(), $freezer);
     }
 }

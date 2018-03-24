@@ -80,7 +80,6 @@ abstract class DatabaseTestCase extends TestCase
 
         self::$pdo->query('CREATE TABLE IF NOT EXISTS poly_base (
             id        integer primary key,
-            created   date,
             __freezer text
         )');
 
@@ -88,6 +87,7 @@ abstract class DatabaseTestCase extends TestCase
             id        integer primary key,
             content   text,
             author    text,
+            created   date,
             __freezer text
         )');
     }
