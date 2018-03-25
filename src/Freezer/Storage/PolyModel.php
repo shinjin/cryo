@@ -8,46 +8,26 @@ class PolyModel extends Model
      */
     protected function doStore(array $frozenObject)
     {
-        // get root object
-        $object = $frozenObject['objects'][$frozenObject['root']];
+        $object = &$frozenObject['objects'][$frozenObject['root']];
+        $class  = &$object['class'];
 
-        // get class
-        $class = $object['class'];
+        // get ancestors
+        $parents = array_values(class_parents($class, false));
+        array_unshift($parents, $class);
 
-        // initialize
-        if (empty($frozenObject['ancestors'])) {
-            $frozenObject['ancestors'] = array_values(class_parents($class, false));
-            array_unshift($frozenObject['ancestors'], $class);
+        foreach(array_reverse($parents) as $parentClass) {
+            if (strpos($parentClass, 'Cryo\\Model') !== 0) {
+                $i = array_search($parentClass, $parents);
+                $childClass = $i !== 0 ? $parents[$i - 1] : false;
+
+                if ($childClass === false ||
+                    $childClass::getTable() !== $parentClass::getTable()) {
+                    $class = $parentClass;
+                    parent::doStore($frozenObject);
+                    $frozenObject['objects'] = array($object);
+                }
+            }
         }
-
-        // get parent class
-        $parentClass = get_parent_class($class);
-
-        // if parent class exists
-        if (strpos($parentClass, 'Cryo\\Model') !== 0) {
-            // change object class to parent class
-            $parent = $frozenObject;
-            $parent['objects'][$parent['root']]['class'] = $parentClass;
-            $frozenObject = $this->doStore($parent);
-        }
-
-        // get child class
-        $i = array_search($class, $frozenObject['ancestors']);
-        $childClass = $i !== 0 ? $frozenObject['ancestors'][$i - 1] : false;
-
-        // if child class does not exist OR table does not equal child table
-        if ($childClass === false ||
-            $childClass::getTable() !== $class::getTable()) {
-
-            $frozenObject['keys'] = parent::doStore($frozenObject);
-            // add stored properties (except primary key) to blacklist
-            $frozenObject['blacklist'] = array_merge(
-                $frozenObject['blacklist'] ?? array(),
-                array_keys($class::getProperties($class::getPrimaryKey()))
-            );
-        }
-
-        return $frozenObject;
     }
 
     /**

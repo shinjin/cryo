@@ -15,6 +15,16 @@ class Model extends Storage
     protected $db;
 
     /**
+     * @var Mapping of old/new keys
+     */
+    protected $keys;
+
+    /**
+     * @var List of properties to blacklist on storage
+     */
+    protected $blacklist;
+
+    /**
      * Constructor.
      *
      * @param  \PDO|array      $pdo         PDO object or array of db parameters
@@ -33,6 +43,8 @@ class Model extends Storage
         parent::__construct($freezer, $useLazyLoad);
 
         $this->db = $db;
+        $this->keys = array();
+        $this->blacklist = array();
     }
 
     /**
@@ -42,9 +54,6 @@ class Model extends Storage
     {
         // reverse order of objects
         $objects = array_reverse($frozenObject['objects']);
-
-        // define old/new key mapping
-        $keys = $frozenObject['keys'] ?? array();
 
         foreach ($objects as $key => $object) {
             if ($object['isDirty'] === true) {
@@ -59,15 +68,13 @@ class Model extends Storage
                     // loop through state and format values for db
                     $values = $this->makeValuesForDb(
                         $object['class'],
-                        $object['state'],
-                        $keys,
-                        $frozenObject['blacklist'] ?? array()
+                        $object['state']
                     );
 
                     // if key is set try update
                     if (!$isAutoIncrementId) {
                         $updates = $this->db->update($table, $values, $id);
-                        $keys[$key] = current($id);
+                        $this->keys[$key] = current($id);
                     }
 
                     // if record not updated try insert
@@ -80,14 +87,12 @@ class Model extends Storage
 
                         // if autoincrement id, add to mapping
                         if ($isAutoIncrementId) {
-                            $keys[$key] = (integer)$this->db->lastInsertId();
+                            $this->keys[$key] = (integer)$this->db->lastInsertId();
                         }
                     }
                 }
             }
         }
-
-        return $keys;
     }
 
     /**
@@ -130,16 +135,11 @@ class Model extends Storage
         }
     }
 
-    private function makeValuesForDb(
-        $class,
-        array $data,
-        array $keys,
-        array $blacklist = array()
-    ){
+    private function makeValuesForDb($class, array $data){
         $values = array();
 
-        foreach($class::getProperties($blacklist) as $name => $property) {
-            $values[$name] = $property->makeValueForDb($data[$name], $keys);
+        foreach($class::getProperties($this->blacklist) as $name => $property) {
+            $values[$name] = $property->makeValueForDb($data[$name], $this->keys);
         }
 
         return $values;
