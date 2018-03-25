@@ -22,19 +22,15 @@ class PolyModel extends Model
 
                 if ($childClass === false ||
                     $childClass::getTable() !== $parentClass::getTable()) {
-                    // update class and store object
+
                     $class = $parentClass;
                     $key = parent::doStore($frozenObject);
 
-                    // if key has changed, update object id
-                    $encodedKey = (string)$key;
-                    if ($encodedKey !== $frozenObject['root']) {
-                        $frozenObject['root'] = $encodedKey;
-
-                        foreach($key->getIdPair() as $name => $value) {
-                            $object['state'][$name] = $value;
-                        }
-                    }
+                    // update object keys
+                    $object['state'] = array_replace(
+                        $object['state'],
+                        $key->getIdPair()
+                    );
 
                     // add stored properties to blacklist
                     $this->blacklist = array_merge(
@@ -43,7 +39,7 @@ class PolyModel extends Model
                     );
 
                     // remove any aggregate objects from list
-                    $frozenObject['objects'] = array($encodedKey => $object);
+                    $frozenObject['objects'] = array((string)$key => $object);
                 }
             }
         }
@@ -51,11 +47,8 @@ class PolyModel extends Model
         return $key;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doFetch($encodedKey, array &$objects = array())
+    private function buildQueryStatement(Key $key, $class)
     {
-        return parent::doFetch($encodedKey, $objects);
+        return parent::buildQueryStatement($key, $class);
     }
 }
