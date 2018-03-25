@@ -109,13 +109,11 @@ class Model extends Storage
         if (!isset($objects[$encodedKey])) {
             $key   = new Key($encodedKey);
             $class = $key->getClass();
-            $table = $class::getTable();
 
-            $filter = $this->db->buildQueryFilter($key->getIdPair());
-            $stmt = sprintf('SELECT * FROM %s WHERE %s', $table, $filter);
-            $stmt = $this->db->query($stmt, $key->getId());
+            $statement = $this->buildQueryStatement($key, $class);
+            $sth = $this->db->query($statement, $key->getId());
 
-            if (($result = $stmt->fetch(\PDO::FETCH_ASSOC)) !== false) {
+            if (($result = $sth->fetch(\PDO::FETCH_ASSOC)) !== false) {
                 $object = array(
                     'class'   => $class,
                     'isDirty' => false,
@@ -139,7 +137,14 @@ class Model extends Storage
         }
     }
 
-    private function makeValuesForDb($class, array $data){
+    private function buildQueryStatement(Key $key, $class)
+    {
+        $filter = $this->db->buildQueryFilter($key->getIdPair());
+        return sprintf('SELECT * FROM %s WHERE %s', $class::getTable(), $filter);
+    }
+
+    private function makeValuesForDb($class, array $data)
+    {
         $values = array();
 
         foreach($class::getProperties($this->blacklist) as $name => $property) {

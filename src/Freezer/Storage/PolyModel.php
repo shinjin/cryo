@@ -28,7 +28,7 @@ class PolyModel extends Model
 
                     // if key has changed, update object id
                     $encodedKey = (string)$key;
-                    if ($frozenObject['root'] !== $encodedKey) {
+                    if ($encodedKey !== $frozenObject['root']) {
                         $frozenObject['root'] = $encodedKey;
 
                         foreach($key->getIdPair() as $name => $value) {

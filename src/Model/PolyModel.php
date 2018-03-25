@@ -1,7 +1,6 @@
 <?php
 namespace Cryo\Model;
 
-use Cryo\Key;
 use Cryo\Model;
 use Cryo\Freezer\Storage\PolyModel as PolyModelStorage;
 use Freezer\Freezer;

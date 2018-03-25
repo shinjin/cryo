@@ -241,6 +241,7 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::getByKey
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\Model::buildQueryStatement
      * @covers Cryo\Freezer\Storage\Model::makeValuesFromDb
      */
     public function testGetsObjectByKey()
@@ -257,6 +258,7 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::getByKey
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\Model::buildQueryStatement
      * @covers Cryo\Freezer\Storage\Model::makeValuesFromDb
      */
     public function testGetsMultipleObjectsByKeys()
@@ -278,6 +280,7 @@ class ModelTest extends DatabaseTestCase
      * @covers  Cryo\Model::getByKey
      * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Freezer\Storage\Model::doFetch
+     * @covers  Cryo\Freezer\Storage\Model::buildQueryStatement
      * @covers  Cryo\Freezer\Storage\Model::makeValuesFromDb
      * @depends testGetsObjectByKey
      */
@@ -294,6 +297,7 @@ class ModelTest extends DatabaseTestCase
      * @covers  Cryo\Model::getByKey
      * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Freezer\Storage\Model::doFetch
+     * @covers  Cryo\Freezer\Storage\Model::buildQueryStatement
      * @covers  Cryo\Freezer\Storage\Model::makeValuesFromDb
      * @depends testGetsMultipleObjectsByKeys
      */
@@ -307,10 +311,11 @@ class ModelTest extends DatabaseTestCase
     }
 
     /**
-     * @covers  Cryo\Model::get
-     * @covers  Cryo\Model::getByKey
-     * @covers  Cryo\Model::getStorage
-     * @covers  Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Model::get
+     * @covers Cryo\Model::getByKey
+     * @covers Cryo\Model::getStorage
+     * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\Model::buildQueryStatement
      * @expectedException \Freezer\Exception\ObjectNotFoundException
      */
     public function testGetThrowsExceptionIfObjectDoesNotExist()
@@ -323,6 +328,7 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::get
      * @covers Cryo\Key::getId
      * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\Model::buildQueryStatement
      * @covers Cryo\Freezer\Storage\Model::makeValuesFromDb
      */
     public function testGetsObjectKey()
