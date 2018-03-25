@@ -31,7 +31,9 @@ class PolyModelTest extends DatabaseTestCase
      */
     public function testPutInsertsPolyModelObject()
     {
-        $this->entry_dated->put();
+        $key = $this->entry_dated->put();
+
+        $object = PolyEntryDated::getByKey($key);
 
         // $saved = PolyEntry::get(4);
 

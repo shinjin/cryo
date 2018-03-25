@@ -87,8 +87,7 @@ abstract class DatabaseTestCase extends TestCase
             id        integer primary key,
             content   text,
             author    text,
-            created   date,
-            __freezer text
+            created   date
         )');
     }
 }

@@ -110,8 +110,10 @@ class Model extends Storage
             $key   = new Key($encodedKey);
             $class = $key->getClass();
 
-            $statement = $this->buildQueryStatement($key, $class);
-            $sth = $this->db->query($statement, $key->getId());
+            $sth = $this->db->query(
+                $this->buildQueryStatement($key, $class),
+                $key->getId()
+            );
 
             if (($result = $sth->fetch(\PDO::FETCH_ASSOC)) !== false) {
                 $object = array(
@@ -137,7 +139,7 @@ class Model extends Storage
         }
     }
 
-    private function buildQueryStatement(Key $key, $class)
+    protected function buildQueryStatement(Key $key, $class)
     {
         $filter = $this->db->buildQueryFilter($key->getIdPair());
         return sprintf('SELECT * FROM %s WHERE %s', $class::getTable(), $filter);
