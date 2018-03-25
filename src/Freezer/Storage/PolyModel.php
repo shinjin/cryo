@@ -22,12 +22,33 @@ class PolyModel extends Model
 
                 if ($childClass === false ||
                     $childClass::getTable() !== $parentClass::getTable()) {
+                    // update class and store object
                     $class = $parentClass;
-                    parent::doStore($frozenObject);
-                    $frozenObject['objects'] = array($object);
+                    $key = parent::doStore($frozenObject);
+
+                    // if key has changed, update object id
+                    $encodedKey = (string)$key;
+                    if ($frozenObject['root'] !== $encodedKey) {
+                        $frozenObject['root'] = $encodedKey;
+
+                        foreach($key->getIdPair() as $name => $value) {
+                            $object['state'][$name] = $value;
+                        }
+                    }
+
+                    // add stored properties to blacklist
+                    $this->blacklist = array_merge(
+                        $this->blacklist,
+                        array_keys($class::getProperties($class::getPrimaryKey()))
+                    );
+
+                    // remove any aggregate objects from list
+                    $frozenObject['objects'] = array($encodedKey => $object);
                 }
             }
         }
+
+        return $key;
     }
 
     /**

@@ -55,8 +55,9 @@ class Model extends Storage
         // reverse order of objects
         $objects = array_reverse($frozenObject['objects']);
 
-        foreach ($objects as $key => $object) {
+        foreach ($objects as $encodedKey => $object) {
             if ($object['isDirty'] === true) {
+                $key = new Key($encodedKey);
                 $table = $object['class']::getTable();
 
                 if (!empty($table)) {
@@ -74,7 +75,7 @@ class Model extends Storage
                     // if key is set try update
                     if (!$isAutoIncrementId) {
                         $updates = $this->db->update($table, $values, $id);
-                        $this->keys[$key] = current($id);
+                        $this->keys[$encodedKey] = current($id);
                     }
 
                     // if record not updated try insert
@@ -87,12 +88,15 @@ class Model extends Storage
 
                         // if autoincrement id, add to mapping
                         if ($isAutoIncrementId) {
-                            $this->keys[$key] = (integer)$this->db->lastInsertId();
+                            $this->keys[$encodedKey] = $this->db->lastInsertId();
+                            $key->setId($this->keys[$encodedKey]);
                         }
                     }
                 }
             }
         }
+
+        return $key;
     }
 
     /**
