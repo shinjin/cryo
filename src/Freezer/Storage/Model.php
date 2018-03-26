@@ -50,7 +50,6 @@ class Model extends Storage
      */
     protected function doStore(array $frozenObject)
     {
-        // reverse order of objects
         $objects = array_reverse($frozenObject['objects']);
 
         foreach ($objects as $encodedKey => $object) {
@@ -64,19 +63,16 @@ class Model extends Storage
                     $id = array_intersect_key($object['state'], array_flip($pk));
                     $isAutoIncrementId = count($id) === 1 && current($id) === null;
 
-                    // loop through state and format values for db
                     $values = $this->makeValuesForDb(
                         $object['class'],
                         $object['state']
                     );
 
-                    // if key is set try update
                     if (!$isAutoIncrementId) {
                         $updates = $this->db->update($table, $values, $id);
                         $this->keys[$encodedKey] = current($id);
                     }
 
-                    // if record not updated try insert
                     if (empty($updates)) {
                         if ($isAutoIncrementId) {
                            $values = array_diff_key($values, $id);
@@ -84,7 +80,7 @@ class Model extends Storage
 
                         $this->db->insert($table, $values);
 
-                        // if autoincrement id, add to mapping
+                        // if autoincrement id, add to key mapping
                         if ($isAutoIncrementId) {
                             $this->keys[$encodedKey] = $this->db->lastInsertId();
                             $key->setId($this->keys[$encodedKey]);

@@ -66,8 +66,8 @@ abstract class DatabaseTestCase extends TestCase
 
         self::$pdo->query('CREATE TABLE IF NOT EXISTS entry (
             id        integer primary key,
-            content   text,
             author    text,
+            content   text,
             created   date,
             __freezer text
         )');
@@ -84,10 +84,15 @@ abstract class DatabaseTestCase extends TestCase
         )');
 
         self::$pdo->query('CREATE TABLE IF NOT EXISTS poly_entry (
-            id        integer primary key,
-            content   text,
-            author    text,
-            created   date
+            id      integer primary key,
+            author  text,
+            content text,
+            created date
+        )');
+
+        self::$pdo->query('CREATE TABLE IF NOT EXISTS poly_custom (
+            id      integer primary key,
+            custom  text
         )');
     }
 }

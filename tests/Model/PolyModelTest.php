@@ -2,6 +2,7 @@
 namespace Cryo\Test\Model;
 
 use Cryo\Test\_files\Author;
+use Cryo\Test\_files\PolyCustom;
 use Cryo\Test\_files\PolyEntry;
 use Cryo\Test\_files\PolyEntryDated;
 use Cryo\Test\DatabaseTestCase;
@@ -14,9 +15,11 @@ class PolyModelTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        $this->entry_dated = new PolyEntryDated(
+        $this->custom = new PolyCustom(array('custom'  => 'custom value'));
+
+        $this->dated_entry = new PolyEntryDated(
             array(
-                'author'  => new Author(array('id'   => 4, 'name' => 'quinn')),
+                'author'  => new Author(array('id' => 4, 'name' => 'quinn')),
                 'content' => 'Hello world!',
                 'created' => '2016-04-13'
             )
@@ -33,11 +36,11 @@ class PolyModelTest extends DatabaseTestCase
      */
     public function testPutInsertsPolyModelObject()
     {
-        $key = $this->entry_dated->put();
+        $key = $this->dated_entry->put();
 
         $saved = PolyEntryDated::getByKey($key);
 
-        $this->assertEquals($this->entry_dated, $saved);
+        $this->assertEquals($this->dated_entry, $saved);
     }
 
 }
