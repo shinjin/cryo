@@ -50,14 +50,15 @@ class PolyModel extends Model
 
         $base_class = array_shift($classes);
         $base_table = $base_class::getTable();
-        $from = $base_table;
+        $tables = $base_table;
 
         $columns = '';
         $filters = '';
 
         foreach($pk as $key) {
-            $columns .= sprintf('%s.%s,', $base_table, $key);
-            $filters .= sprintf('%s.%s = ?,', $base_table, $key);
+            $column = sprintf('%s.%s', $base_table, $key);
+            $columns .= $column . ',';
+            $filters .= $column . ' = ?,';
         }
         $columns .= implode(',', array_keys($class::getProperties($pk)));
 
@@ -67,18 +68,16 @@ class PolyModel extends Model
                 $on = array();
 
                 foreach($pk as $key) {
-                    array_push(
-                        $on,
-                        sprintf('%s.%s = %s.%s', $base_table, $key, $table, $key)
-                    );
+                    $args = array($base_table, $key, $table, $key);
+                    array_push($on, vsprintf('%s.%s = %s.%s', $args));
                 }
 
-                $from .= sprintf(' JOIN %s ON %s', $table, implode(' AND ', $on));
+                $tables .= sprintf(' JOIN %s ON %s', $table, implode(' AND ', $on));
             }
         }
 
         return sprintf(
-            'SELECT %s FROM %s WHERE %s', $columns, $from, rtrim($filters, ',')
+            'SELECT %s FROM %s WHERE %s', $columns, $tables, rtrim($filters, ',')
         );
     }
 
