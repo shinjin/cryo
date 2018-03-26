@@ -23,20 +23,22 @@ class PolyModel extends Model
 
                 $key = parent::doStore($frozen_object);
 
-                // update object keys
-                $object['state'] = array_replace(
-                    $object['state'],
-                    $key->getIdPair()
-                );
-
                 // add stored properties to blacklist
                 $this->blacklist = array_merge(
                     $this->blacklist,
                     array_keys($class::getProperties($class::getPrimaryKey()))
                 );
 
-                // remove any aggregate objects from list
-                $frozen_object['objects'] = array((string)$key => $object);
+                if ($i === 0) {
+                    // update object keys
+                    $object['state'] = array_merge(
+                        $object['state'],
+                        $key->getIdPair()
+                    );
+
+                    // remove any aggregate objects from list
+                    $frozen_object['objects'] = array((string)$key => $object);
+                }
             }
         }
 
