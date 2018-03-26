@@ -324,7 +324,13 @@ abstract class Model
      */
     public function put(): Key
     {
-        return new Key(self::getStorage()->store($this));
+        $key = new Key(self::getStorage()->store($this));
+
+        // update object id
+        $this->state = array_intersect_key($key->getIdPair(), $this->state) +
+                       $this->state;
+
+        return $key;
     }
 
     /**

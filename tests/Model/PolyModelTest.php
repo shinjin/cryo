@@ -24,20 +24,19 @@ class PolyModelTest extends DatabaseTestCase
     }
 
     /**
-     * @covers Cryo\Model\PolyModel::put
+     * @covers Cryo\Model::put
      * @covers Cryo\Model::getStorage
-     * @covers Cryo\Freezer\Storage\Model::doStore
-     * @covers Cryo\Freezer\Storage\Model::makeValuesForDb
+     * @covers Cryo\Freezer\Storage\PolyModel::doStore
+     * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\Model::doFetch
      */
     public function testPutInsertsPolyModelObject()
     {
         $key = $this->entry_dated->put();
 
-        $object = PolyEntryDated::getByKey($key);
+        $saved = PolyEntryDated::getByKey($key);
 
-        // $saved = PolyEntry::get(4);
-
-        // $this->assertEquals($this->entry, $saved);
+        $this->assertEquals($this->entry_dated, $saved);
     }
 
 }
