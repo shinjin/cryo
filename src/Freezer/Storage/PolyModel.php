@@ -10,12 +10,8 @@ class PolyModel extends Model
      */
     protected function doStore(array $frozenObject)
     {
-        $object = &$frozenObject['objects'][$frozenObject['root']];
-        $class  = &$object['class'];
-
-        // get ancestors
-        // $ancestors = array_values(class_parents($class, false));
-        // array_unshift($ancestors, $class);
+        $object  = &$frozenObject['objects'][$frozenObject['root']];
+        $class   = &$object['class'];
         $classes = $this->getClassHierarchy($class);
 
         foreach($classes as $class) {
