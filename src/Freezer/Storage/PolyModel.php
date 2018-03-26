@@ -14,9 +14,8 @@ class PolyModel extends Model
         $class   = &$object['class'];
         $classes = $this->getClassHierarchy($class);
 
-        foreach($classes as $class) {
-            $i = array_search($class, $classes);
-            $child_class = $i + 1 === count($classes) ? null : $classes[$i + 1];
+        foreach($classes as $i => $class) {
+            $child_class = $classes[$i + 1] ?? null;
 
             if ($child_class === null ||
                 $child_class::getTable() !== $class::getTable()) {
