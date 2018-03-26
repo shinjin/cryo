@@ -14,34 +14,33 @@ class PolyModel extends Model
         $class  = &$object['class'];
 
         // get ancestors
-        $ancestors = array_values(class_parents($class, false));
-        array_unshift($ancestors, $class);
+        // $ancestors = array_values(class_parents($class, false));
+        // array_unshift($ancestors, $class);
+        $classes = $this->getClassHierarchy($class);
 
-        foreach(array_reverse($ancestors) as $class) {
-            if (strpos($class, 'Cryo\\Model') !== 0) {
-                $i = array_search($class, $ancestors);
-                $childClass = $i === 0 ? false : $ancestors[$i - 1];
+        foreach($classes as $class) {
+            $i = array_search($class, $classes);
+            $childClass = $i + 1 === count($classes) ? null : $classes[$i + 1];
 
-                if ($childClass === false ||
-                    $childClass::getTable() !== $class::getTable()) {
+            if ($childClass === null ||
+                $childClass::getTable() !== $class::getTable()) {
 
-                    $key = parent::doStore($frozenObject);
+                $key = parent::doStore($frozenObject);
 
-                    // update object keys
-                    $object['state'] = array_replace(
-                        $object['state'],
-                        $key->getIdPair()
-                    );
+                // update object keys
+                $object['state'] = array_replace(
+                    $object['state'],
+                    $key->getIdPair()
+                );
 
-                    // add stored properties to blacklist
-                    $this->blacklist = array_merge(
-                        $this->blacklist,
-                        array_keys($class::getProperties($class::getPrimaryKey()))
-                    );
+                // add stored properties to blacklist
+                $this->blacklist = array_merge(
+                    $this->blacklist,
+                    array_keys($class::getProperties($class::getPrimaryKey()))
+                );
 
-                    // remove any aggregate objects from list
-                    $frozenObject['objects'] = array((string)$key => $object);
-                }
+                // remove any aggregate objects from list
+                $frozenObject['objects'] = array((string)$key => $object);
             }
         }
 
@@ -50,48 +49,55 @@ class PolyModel extends Model
 
     protected function buildQueryStatement(Key $key, $class)
     {
-        // poly_base INNER JOIN poly_entry ON poly_base.id = poly_entry.id
-        //           INNER JOIN poly_entry_dated ON poly_base.id = poly_entry_dated.id
-
         $pk = $class::getPrimaryKey();
+        $classes = $this->getClassHierarchy($class);
 
-        $parents = array_values(class_parents($class, false));
-        array_unshift($parents, $class);
-
-        foreach(array_reverse($parents) as $parent) {
-            if (strpos($parent, 'Cryo\\Model') !== 0 &&
-                (empty($table) || $table !== $parent::getTable())) {
-                $table = $parent::getTable();
-
-                if (empty($from)) {
-                    $base = $table;
-                    $from = $table;
-                } else {
-                    $filter = array();
-                    foreach($pk as $key) {
-                        array_push(
-                            $filter,
-                            sprintf('%s.%s = %s.%s', $base, $key, $table, $key)
-                        );
-                    }
-                    $filter = implode(' AND ', $filter);
-                    $from .= sprintf(' INNER JOIN %s ON %s', $table, $filter);
-                }
-            }
-        }
+        $base_class = array_shift($classes);
+        $base_table = $base_class::getTable();
+        $from = $base_table;
 
         $columns = '';
-        $filter  = '';
+        $filters = '';
+
         foreach($pk as $key) {
-            $columns .= sprintf('%s.%s,', $base, $key);
-            $filter  .= sprintf('%s.%s = ?,', $base, $key);
+            $columns .= sprintf('%s.%s,', $base_table, $key);
+            $filters .= sprintf('%s.%s = ?,', $base_table, $key);
         }
         $columns .= implode(',', array_keys($class::getProperties($pk)));
 
-        $query = sprintf(
-            'SELECT %s FROM %s WHERE %s', $columns, $from, rtrim($filter, ',')
-        );
+        foreach($classes as $class) {
+            if (empty($table) || $table !== $class::getTable()) {
+                $table = $class::getTable();
+                $on = array();
 
-        return $query;
+                foreach($pk as $key) {
+                    array_push(
+                        $on,
+                        sprintf('%s.%s = %s.%s', $base_table, $key, $table, $key)
+                    );
+                }
+
+                $from .= sprintf(' JOIN %s ON %s', $table, implode(' AND ', $on));
+            }
+        }
+
+        return sprintf(
+            'SELECT %s FROM %s WHERE %s', $columns, $from, rtrim($filters, ',')
+        );
+    }
+
+    private function getClassHierarchy($class)
+    {
+        $classes = array_reverse(
+            array_values(
+                array_diff_key(
+                    class_parents($class, false),
+                    array_flip(array('Cryo\\Model', 'Cryo\\Model\\PolyModel'))
+                )
+            )
+        );
+        array_push($classes, $class);
+
+        return $classes;
     }
 }

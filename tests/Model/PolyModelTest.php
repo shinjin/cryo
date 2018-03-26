@@ -28,6 +28,7 @@ class PolyModelTest extends DatabaseTestCase
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\PolyModel::doStore
      * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\PolyModel::getClassHierarchy
      * @covers Cryo\Freezer\Storage\Model::doFetch
      */
     public function testPutInsertsPolyModelObject()
