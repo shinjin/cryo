@@ -8,20 +8,20 @@ class PolyModel extends Model
     /**
      * @inheritdoc
      */
-    protected function doStore(array $frozenObject)
+    protected function doStore(array $frozen_object)
     {
-        $object  = &$frozenObject['objects'][$frozenObject['root']];
+        $object  = &$frozen_object['objects'][$frozen_object['root']];
         $class   = &$object['class'];
         $classes = $this->getClassHierarchy($class);
 
         foreach($classes as $class) {
             $i = array_search($class, $classes);
-            $childClass = $i + 1 === count($classes) ? null : $classes[$i + 1];
+            $child_class = $i + 1 === count($classes) ? null : $classes[$i + 1];
 
-            if ($childClass === null ||
-                $childClass::getTable() !== $class::getTable()) {
+            if ($child_class === null ||
+                $child_class::getTable() !== $class::getTable()) {
 
-                $key = parent::doStore($frozenObject);
+                $key = parent::doStore($frozen_object);
 
                 // update object keys
                 $object['state'] = array_replace(
@@ -36,14 +36,14 @@ class PolyModel extends Model
                 );
 
                 // remove any aggregate objects from list
-                $frozenObject['objects'] = array((string)$key => $object);
+                $frozen_object['objects'] = array((string)$key => $object);
             }
         }
 
         return $key;
     }
 
-    protected function buildQueryStatement(Key $key, $class)
+    protected function buildQueryStatement(Key $key, string $class): string
     {
         $pk = $class::getPrimaryKey();
         $classes = $this->getClassHierarchy($class);
@@ -82,7 +82,7 @@ class PolyModel extends Model
         );
     }
 
-    private function getClassHierarchy($class)
+    private function getClassHierarchy(string $class): array
     {
         $classes = array_reverse(
             array_values(

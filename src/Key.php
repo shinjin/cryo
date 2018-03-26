@@ -69,7 +69,7 @@ class Key
      *
      * @throws \Cryo\Exception\InvalidArgumentException
      */
-    public function setClass($class): void
+    public function setClass(string $class): void
     {
         if (!is_subclass_of($class, '\\Cryo\\Model')) {
             $message = sprintf('Class %s must be a valid Cryo model.', $class);

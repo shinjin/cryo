@@ -31,14 +31,12 @@ class Model extends Storage
      * @param  Freezer\Freezer $freezer     Freezer instance to be used
      * @param  boolean         $useLazyLoad Flag that controls whether objects
      *                                      are fetched using lazy load or not
-     * @param  array           $db_options  PDO options
      * @throws InvalidArgumentException
      */
     public function __construct(
         Db $db,
         Freezer $freezer = null,
-        $useLazyLoad = false,
-        array $db_options = array()
+        $useLazyLoad = false
     ){
         parent::__construct($freezer, $useLazyLoad);
 
@@ -139,13 +137,13 @@ class Model extends Storage
         }
     }
 
-    protected function buildQueryStatement(Key $key, $class)
+    protected function buildQueryStatement(Key $key, string $class): string
     {
         $filter = $this->db->buildQueryFilter($key->getIdPair());
         return sprintf('SELECT * FROM %s WHERE %s', $class::getTable(), $filter);
     }
 
-    private function makeValuesForDb($class, array $data)
+    private function makeValuesForDb(string $class, array $data): array
     {
         $values = array();
 
@@ -156,7 +154,7 @@ class Model extends Storage
         return $values;
     }
 
-    private function makeValuesFromDb($class, array $data)
+    private function makeValuesFromDb(string $class, array $data): array
     {
         $values = array();
 

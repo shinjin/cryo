@@ -216,7 +216,7 @@ abstract class Model
      *
      * @return array
      */
-    public static function getProperties($blacklist = array()): array
+    public static function getProperties(array $blacklist = array()): array
     {
         $properties = array_diff_key(
             get_class_vars(get_called_class()),
@@ -488,7 +488,7 @@ abstract class Model
      *
      * @return void
      */
-    private static function initializeProperties(&$properties): void
+    private static function initializeProperties(array &$properties): void
     {
         foreach($properties as $name => &$property) {
             if (is_array($property)) {
