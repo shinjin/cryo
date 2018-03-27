@@ -47,6 +47,15 @@ abstract class DatabaseTestCase extends TestCase
                 array('id' => 2, 'name' => 'nancy', '__freezer' => '{}'),
                 array('id' => 3, 'name' => 'suzy', '__freezer' => '{}')
             ),
+            'poly_base' => array(
+                array('id' => 1, '__freezer' => '{"hash":"1c10ad155cdc8d00b2038af64c116aa2b13a8bf4"}'),
+            ),
+            'poly_entry' => array(
+                array('id' => 1, 'content' => 'Hello buddy!', 'author' => 1, 'created' => '2010-04-24'),
+            ),
+            'poly_special' => array(
+                array('id' => 1, 'special' => 'special value'),
+            ),
         ));
     }
 
@@ -90,9 +99,9 @@ abstract class DatabaseTestCase extends TestCase
             created date
         )');
 
-        self::$pdo->query('CREATE TABLE IF NOT EXISTS poly_custom (
+        self::$pdo->query('CREATE TABLE IF NOT EXISTS poly_special (
             id      integer primary key,
-            custom  text
+            special text
         )');
     }
 }

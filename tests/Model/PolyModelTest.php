@@ -2,9 +2,9 @@
 namespace Cryo\Test\Model;
 
 use Cryo\Test\_files\Author;
-use Cryo\Test\_files\PolyCustom;
 use Cryo\Test\_files\PolyEntry;
 use Cryo\Test\_files\PolyEntryDated;
+use Cryo\Test\_files\PolySpecial;
 use Cryo\Test\DatabaseTestCase;
 
 class PolyModelTest extends DatabaseTestCase
@@ -15,7 +15,11 @@ class PolyModelTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        $this->custom = new PolyCustom(array('custom'  => 'custom value'));
+        $this->special = new PolySpecial(
+            array(
+                'special' => 'special value'
+            )
+        );
 
         $this->dated_entry = new PolyEntryDated(
             array(
@@ -27,20 +31,69 @@ class PolyModelTest extends DatabaseTestCase
     }
 
     /**
+     * @covers Cryo\Model::get
+     * @covers Cryo\Model::getStorage
+     * @covers Cryo\Model\PolyModel::createStorage
+     * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\PolyModel::getClassHierarchy
+     */
+    public function testGetsPolyModelObject()
+    {
+        $object = PolyEntryDated::get(1);
+
+        $this->assertInstanceOf('Cryo\\Test\\_files\\PolyEntryDated', $object);
+        $this->assertSame(array(1), $object->__key->getId());
+    }
+
+    /**
+     * @covers Cryo\Model::get
+     * @covers Cryo\Model::getStorage
+     * @covers Cryo\Model\PolyModel::createStorage
+     * @covers Cryo\Freezer\Storage\Model::doFetch
+     * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\PolyModel::getClassHierarchy
+     */
+    public function testGetsPolyModelConcreteObject()
+    {
+        $object = PolySpecial::get(1);
+
+        $this->assertInstanceOf('Cryo\\Test\\_files\\PolySpecial', $object);
+        $this->assertSame(array(1), $object->__key->getId());
+        $this->assertSame('special value', $object->special);
+    }
+
+    /**
      * @covers Cryo\Model::put
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\PolyModel::doStore
      * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
      * @covers Cryo\Freezer\Storage\PolyModel::getClassHierarchy
+     * @covers Cryo\Freezer\Storage\Model::doStore
      * @covers Cryo\Freezer\Storage\Model::doFetch
      */
     public function testPutInsertsPolyModelObject()
     {
         $key = $this->dated_entry->put();
-
         $saved = PolyEntryDated::getByKey($key);
 
         $this->assertEquals($this->dated_entry, $saved);
     }
 
+    /**
+     * @covers Cryo\Model::put
+     * @covers Cryo\Model::getStorage
+     * @covers Cryo\Freezer\Storage\PolyModel::doStore
+     * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\PolyModel::getClassHierarchy
+     * @covers Cryo\Freezer\Storage\Model::doStore
+     * @covers Cryo\Freezer\Storage\Model::doFetch
+     */
+    // public function testPutInsertsPolyModelConcreteObject()
+    // {
+    //     $key = $this->special->put();
+    //     $saved = PolySpecial::getByKey($key);
+
+    //     $this->assertEquals($this->special, $saved);
+    // }
 }
