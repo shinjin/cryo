@@ -3,5 +3,5 @@
 ## [Unreleased]
 - Nothing
 
-## [0.1.0] - 2018-03-01
+## [0.1.0] - 2018-03-27
 - Initial alpha release

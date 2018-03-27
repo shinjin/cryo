@@ -3,7 +3,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-coveralls]][link-coveralls]
 
-An active record implementation.
+An active record library.
 
 ~~Use Cryo if you need:~~ Don't use Cryo yet.
 
