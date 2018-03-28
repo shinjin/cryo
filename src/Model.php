@@ -86,6 +86,8 @@ abstract class Model
      */
     public function __construct(array $state = array())
     {
+        self::initializeProperties();
+
         $this->state = array(
             '__key' => Key::generate(get_class($this), uniqid())
         );
@@ -104,9 +106,13 @@ abstract class Model
     public function &__get(string $name)
     {
         if (!array_key_exists($name, $this->state)) {
-            throw new InvalidArgumentException(
-                sprintf('Property "%s" does not exist.', $name)
-            );
+            if (!property_exists($this, $name)) {
+                throw new InvalidArgumentException(
+                    sprintf('Property "%s" does not exist.', $name)
+                );                
+            }
+
+            $this->state[$name] = static::$$name->getDefaultValue();
         }
 
         return $this->state[$name];
@@ -378,9 +384,9 @@ abstract class Model
      */
     public function load(array $state, bool $strict = true): void
     {
-        foreach(self::getProperties(static::$only['dump']) as $name => $property)
+        foreach($state as $name => $value)
         {
-            $this->__set($name, $state[$name] ?? $property->getDefaultValue());
+            $this->__set($name, $value);
         }
     }
 

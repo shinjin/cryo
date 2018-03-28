@@ -224,6 +224,23 @@ class ModelTest extends DatabaseTestCase
     }
 
     /**
+     * @covers Cryo\Model::getProperties
+     * @covers Cryo\Model::initializeProperties
+     * @covers Cryo\Model::getReservedProperties
+     */
+    public function testGetObjectPropertiesInitializesProperties()
+    {
+        $reflector = new \ReflectionClass('\\Cryo\\Model');
+        $db = $reflector->getProperty('properties');
+        $db->setAccessible(true);
+        $db->setValue(null);
+
+        $properties = Entry::getProperties();
+
+        $this->assertInstanceOf('\\Cryo\\Property', current($properties));
+    }
+
+    /**
      * @covers Cryo\Model::getPropertyReader
      */
     public function testPropertyReaderReturnsObjectPropertyValues()

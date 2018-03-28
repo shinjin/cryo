@@ -66,6 +66,7 @@ class PolyModelTest extends DatabaseTestCase
     /**
      * @covers Cryo\Model::put
      * @covers Cryo\Model::getStorage
+     * @covers Cryo\Model::__get
      * @covers Cryo\Freezer\Storage\PolyModel::doStore
      * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
      * @covers Cryo\Freezer\Storage\PolyModel::getClassHierarchy
