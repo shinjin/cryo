@@ -19,7 +19,7 @@ class FreezerPropertyTest extends TestCase
     public function testValidatePassesArrayOrStringValue()
     {
         $this->assertSame(array(), $this->property->validate(array()));
-        $this->assertSame('     ', $this->property->validate('     '));
+        $this->assertSame(null, $this->property->validate(''));
     }
 
     /**

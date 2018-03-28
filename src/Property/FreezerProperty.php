@@ -10,10 +10,10 @@ class FreezerProperty extends ArrayProperty
 
     public function validate($value)
     {
-        if (gettype($value) !== 'string' && $value !== null) {
-            $value = parent::validate($value);
+        if (gettype($value) === 'string') {
+            $value = json_decode($value, true);
         }
 
-        return $value;
+        return parent::validate($value);
     }
 }
