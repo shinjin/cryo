@@ -82,7 +82,7 @@ class Model extends Storage
 
                         // if autoincrement id, add to key mapping
                         if ($isAutoIncrementId) {
-                            $this->keys[$encodedKey] = $this->db->lastInsertId();
+                            $this->keys[$encodedKey] = (int)$this->db->lastInsertId();
                             $key->setId($this->keys[$encodedKey]);
                         }
                     }
