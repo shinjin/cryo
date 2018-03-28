@@ -47,6 +47,7 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::load
      * @covers Cryo\Model::getProperties
      * @covers Cryo\Model::initializeProperties
+     * @covers Cryo\Model::getReservedProperties
      * @covers Cryo\Model::createProperty
      */
     public function testConstructorWithDefaultArguments()
@@ -70,6 +71,7 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::load
      * @covers Cryo\Model::getProperties
      * @covers Cryo\Model::initializeProperties
+     * @covers Cryo\Model::getReservedProperties
      * @covers Cryo\Model::createProperty
      * @expectedException InvalidArgumentException
      */
@@ -209,8 +211,8 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::getProperties
-     * @covers Cryo\Model::getReservedProperties
      * @covers Cryo\Model::initializeProperties
+     * @covers Cryo\Model::getReservedProperties
      */
     public function testGetsObjectProperties()
     {

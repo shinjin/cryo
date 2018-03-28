@@ -41,6 +41,14 @@ abstract class Model
     protected static $primary_key = 'id';
 
     /**
+     * List of object properties.
+     *
+     * @var array
+     */
+    protected static $properties;
+
+
+    /**
      * A list of properties to only dump or only load.
      *
      * @var array
@@ -218,17 +226,19 @@ abstract class Model
      */
     public static function getProperties(array $blacklist = array()): array
     {
-        $properties = array_diff_key(
-            get_class_vars(get_called_class()),
-            array_flip(self::getReservedProperties())
-        );
+        $class = get_called_class();
 
-        if (!current($properties) instanceof Property) {
-            self::initializeProperties($properties);
+        if (empty(self::$properties[$class])) {
+            self::initializeProperties();
         }
 
+        $properties = array_intersect_key(
+            self::$properties[$class],
+            get_class_vars($class)
+        );
+
         array_push($blacklist, '__key');
-        return array_diff_key($properties, array_flip($blacklist));
+        return array_diff_key($properties, array_flip($blacklist));        
     }
 
     /**
@@ -488,9 +498,15 @@ abstract class Model
      *
      * @return void
      */
-    private static function initializeProperties(array &$properties): void
+    private static function initializeProperties(): void
     {
-        foreach($properties as $name => &$property) {
+        $class = get_called_class();
+        self::$properties[$class] = array_diff_key(
+            get_class_vars($class),
+            array_flip(self::getReservedProperties())
+        );
+
+        foreach(self::$properties[$class] as $name => &$property) {
             if (is_array($property)) {
                 $property = self::createProperty($name, $property);
                 static::$$name = $property;
