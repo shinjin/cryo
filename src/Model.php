@@ -63,7 +63,7 @@ abstract class Model
      *
      * @var array
      */
-    protected static $__freezer = array('type' => 'array');
+    protected static $__freezer = array('type' => 'freezer');
 
     /**
      * Internal property that contains object key.
