@@ -16,6 +16,15 @@ class ArrayProperty extends Property
         $this->params = array_replace(self::DEFAULT_PARAMS, $this->params);
     }
 
+    public function validate($value)
+    {
+        if (gettype($value) === 'string') {
+            $value = $this->makeValueFromDb($value);
+        }
+
+        return parent::validate($value);
+    }
+
     public function makeValueForDb($values, array $keys = array(), $level = 0)
     {
         foreach($values as &$value) {
@@ -41,7 +50,7 @@ class ArrayProperty extends Property
     public function makeValueFromDb($values)
     {
         if (is_string($values)) {
-            $values = json_decode($values, true);
+            $values = json_decode($values ?: '{}', true);
         }
 
         foreach($values as &$value) {

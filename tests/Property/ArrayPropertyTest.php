@@ -23,6 +23,24 @@ class ArrayPropertyTest extends TestCase
     }
 
     /**
+     * @covers Cryo\Property\ArrayProperty::validate
+     */
+    public function testValidatePassesArrayOrStringValue()
+    {
+        $this->assertSame(array(), $this->property->validate(array()));
+        $this->assertSame(array(), $this->property->validate(''));
+    }
+
+    /**
+     * @covers Cryo\Property\ArrayProperty::validate
+     * @expectedException \Cryo\Exception\InvalidArgumentException
+     */
+    public function testValidateThrowsExceptionIfValueIsNeitherArrayNorString()
+    {
+        $this->property->validate(1);
+    }
+
+    /**
      * @covers Cryo\Property\ArrayProperty::makeValueForDb
      */
     public function testMakeValueForDbReplacesArrayOfFreezerValuesWithDbValues()
