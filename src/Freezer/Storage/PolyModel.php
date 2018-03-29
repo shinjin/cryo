@@ -10,6 +10,9 @@ class PolyModel extends Model
      */
     protected function doStore(array $frozen_object)
     {
+        // initialize blacklist
+        $this->blacklist = array();
+
         $object  = &$frozen_object['objects'][$frozen_object['root']];
         $class   = &$object['class'];
         $classes = $this->getClassHierarchy($class);
