@@ -90,11 +90,11 @@ class PolyModelTest extends DatabaseTestCase
      * @covers Cryo\Freezer\Storage\Model::doStore
      * @covers Cryo\Freezer\Storage\Model::doFetch
      */
-    // public function testPutInsertsPolyModelConcreteObject()
-    // {
-    //     $key = $this->special->put();
-    //     $saved = PolySpecial::getByKey($key);
+    public function testPutInsertsPolyModelConcreteObject()
+    {
+        $key = $this->special->put();
+        $saved = PolySpecial::getByKey($key);
 
-    //     $this->assertEquals($this->special, $saved);
-    // }
+        $this->assertEquals($this->special, $saved);
+    }
 }
