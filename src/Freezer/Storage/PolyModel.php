@@ -15,7 +15,7 @@ class PolyModel extends Model
 
         $object  = &$frozen_object['objects'][$frozen_object['root']];
         $class   = &$object['class'];
-        $classes = $this->getClassHierarchy($class);
+        $classes = $class::getClassHierarchy();
 
         foreach($classes as $i => $class) {
             $child_class = $classes[$i + 1] ?? null;
@@ -50,7 +50,7 @@ class PolyModel extends Model
     protected function buildQueryStatement(Key $key, string $class): string
     {
         $pk = $class::getPrimaryKey();
-        $classes = $this->getClassHierarchy($class);
+        $classes = $class::getClassHierarchy();
 
         $base_class = array_shift($classes);
         $base_table = $base_class::getTable();
@@ -83,20 +83,5 @@ class PolyModel extends Model
         return sprintf(
             'SELECT %s FROM %s WHERE %s', $columns, $tables, rtrim($filters, ',')
         );
-    }
-
-    private function getClassHierarchy(string $class): array
-    {
-        $classes = array_reverse(
-            array_values(
-                array_diff_key(
-                    class_parents($class, false),
-                    array_flip(array('Cryo\\Model', 'Cryo\\Model\\PolyModel'))
-                )
-            )
-        );
-        array_push($classes, $class);
-
-        return $classes;
     }
 }

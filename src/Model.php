@@ -269,6 +269,27 @@ abstract class Model
     }
 
     /**
+     * Returns class hierarchary.
+     *
+     * @return callable
+     */
+    public static function getClassHierarchy(): array
+    {
+        $class   = get_called_class();
+        $classes = array_reverse(
+            array_values(
+                array_diff_key(
+                    class_parents($class, false),
+                    array_flip(array('Cryo\\Model', 'Cryo\\Model\\PolyModel'))
+                )
+            )
+        );
+        array_push($classes, $class);
+
+        return $classes;
+    }
+
+    /**
      * Fetches an object or list of objects by id(s).
      *
      * @param string|integer|array $ids The object id or list of ids.
@@ -485,34 +506,25 @@ abstract class Model
     }
 
     /**
-     * Returns the reserved property names.
-     *
-     * @return array
-     */
-    private static function getReservedProperties(): array
-    {
-        return array_keys(
-            array_diff_key(
-                get_class_vars('\\Cryo\\Model'),
-                array_flip(array('__freezer', '__key'))
-            )
-        );
-    }
-
-    /**
      * Converts the property parameter array to property objects.
      *
      * @return void
      */
     private static function initializeProperties(): void
     {
-        $class = get_called_class();
-        self::$properties[$class] = array_diff_key(
-            get_class_vars($class),
-            array_flip(self::getReservedProperties())
+        $called_class = get_called_class();
+
+        $properties = array();
+        foreach(self::getClassHierarchy() as $class) {
+            $properties = array_merge($properties, get_class_vars($class));
+        }
+
+        self::$properties[$called_class] = array_merge(
+            array_diff_key($properties, get_class_vars('\\Cryo\\Model')),
+            array('__freezer' => self::$__freezer, '__key' => self::$__key)
         );
 
-        foreach(self::$properties[$class] as $name => &$property) {
+        foreach(self::$properties[$called_class] as $name => &$property) {
             if (is_array($property)) {
                 $property = self::createProperty($name, $property);
                 static::$$name = $property;
