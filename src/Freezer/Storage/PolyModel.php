@@ -54,7 +54,7 @@ class PolyModel extends Model
 
         $base_class = array_shift($classes);
         $base_table = $base_class::getTable();
-        $tables = $base_table;
+        $table = $tables = $base_table;
 
         $columns = '';
         $filters = '';
@@ -67,7 +67,7 @@ class PolyModel extends Model
         $columns .= implode(',', array_keys($class::getProperties($pk)));
 
         foreach($classes as $class) {
-            if (empty($table) || $table !== $class::getTable()) {
+            if ($table !== $class::getTable()) {
                 $table = $class::getTable();
                 $on = array();
 
