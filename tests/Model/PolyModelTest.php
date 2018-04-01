@@ -93,4 +93,28 @@ class PolyModelTest extends DatabaseTestCase
 
         $this->assertEquals($this->special, $saved);
     }
+
+    /**
+     * @covers Cryo\Model\PolyModel::delete
+     * @covers Cryo\Model::getDb
+     * @covers Cryo\Model::getTable
+     * @expectedException \Freezer\Exception\ObjectNotFoundException
+     */
+    public function testDeletesPolyModelObject()
+    {
+        $entry   = PolyEntryDated::get(1);
+        $deleted = $entry->delete();
+
+        $this->assertSame(2, $deleted);        
+        PolyEntryDated::get(1);
+    }
+
+    /**
+     * @covers Cryo\Model\PolyModel::delete
+     * @expectedException \Cryo\Exception\NotSavedException
+     */
+    public function testDeleteThrowsNotSavedException()
+    {
+        $this->dated_entry->delete();
+    }
 }
