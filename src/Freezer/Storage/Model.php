@@ -68,23 +68,13 @@ class Model extends Storage
                         $object['state']
                     );
 
-                    if (!$isAutoIncrementId) {
-                        $updates = $this->db->update($table, $values, $id);
+                    $this->db->insert($table, $values, array_keys($id));
+
+                    if ($isAutoIncrementId) {
+                        $this->keys[$encodedKey] = (int)$this->db->lastInsertId();
+                        $key->setId($this->keys[$encodedKey]);
+                    } else {
                         $this->keys[$encodedKey] = current($id);
-                    }
-
-                    if (empty($updates)) {
-                        if ($isAutoIncrementId) {
-                           $values = array_diff_key($values, $id);
-                        }
-
-                        $this->db->insert($table, $values);
-
-                        // if autoincrement id, add to key mapping
-                        if ($isAutoIncrementId) {
-                            $this->keys[$encodedKey] = (int)$this->db->lastInsertId();
-                            $key->setId($this->keys[$encodedKey]);
-                        }
                     }
                 }
             }
