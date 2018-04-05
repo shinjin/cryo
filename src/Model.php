@@ -127,7 +127,7 @@ abstract class Model
      * @return void
      * @throws \Cryo\Exception\InvalidArgumentException
      */
-    public function __set(string $name, $value)
+    public function __set(string $name, $value): void
     {
         if (!property_exists($this, $name)) {
             throw new InvalidArgumentException(
@@ -186,7 +186,7 @@ abstract class Model
      *
      * @return void
      */
-    public static function setDb(Db $db)
+    public static function setDb(Db $db): void
     {
         self::$db = $db;
     }
@@ -210,7 +210,7 @@ abstract class Model
      *
      * @return string|null
      */
-    public static function getTable()
+    public static function getTable(): ?string
     {
         return static::$table;
     }
@@ -403,7 +403,7 @@ abstract class Model
      *
      * @return void
      */
-    public function load(array $state, bool $strict = true)
+    public function load(array $state, bool $strict = true): void
     {
         foreach($state as $name => $value)
         {
@@ -510,7 +510,7 @@ abstract class Model
      *
      * @return void
      */
-    private static function initializeProperties()
+    private static function initializeProperties(): void
     {
         $called_class = get_called_class();
 

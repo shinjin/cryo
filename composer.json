@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "shinjin/freezer": "^0",
         "shinjin/pdo": "^0"
     },
@@ -28,6 +28,11 @@
     "autoload-dev": {
         "psr-4": {
             "Cryo\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.1"
         }
     },
     "scripts": {
