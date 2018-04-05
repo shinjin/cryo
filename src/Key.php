@@ -67,9 +67,10 @@ class Key
      *
      * @param string $class The object's class name
      *
+     * @return void
      * @throws \Cryo\Exception\InvalidArgumentException
      */
-    public function setClass(string $class): void
+    public function setClass(string $class)
     {
         if (!is_subclass_of($class, '\\Cryo\\Model')) {
             $message = sprintf('Class %s must be a valid Cryo model.', $class);
@@ -84,7 +85,7 @@ class Key
      *
      * @return string|null
      */
-    public function getClass(): ?string
+    public function getClass()
     {
         return $this->class;
     }
@@ -94,9 +95,10 @@ class Key
      *
      * @param string $id The object's id
      *
+     * @return void
      * @throws \Cryo\Exception\InvalidArgumentException
      */
-    public function setId($id): void
+    public function setId($id)
     {
         $id = (array)$id;
 
@@ -112,7 +114,7 @@ class Key
      *
      * @return array|null
      */
-    public function getId(): ?array
+    public function getId()
     {
         return $this->id;
     }

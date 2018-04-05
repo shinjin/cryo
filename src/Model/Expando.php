@@ -18,7 +18,7 @@ class Expando extends Model
     /**
      * @inherits
      */
-    public function __set(string $name, $value): void
+    public function __set(string $name, $value)
     {
         if (!property_exists($this, $name)) {
             $this->state[$name] = $value;

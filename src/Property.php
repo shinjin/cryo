@@ -77,7 +77,7 @@ abstract class Property
      *
      * @return string|null
      */
-    public function getOnly(): ?string
+    public function getOnly()
     {
         return $this->params['only'];
     }
