@@ -46,7 +46,7 @@ class Model extends Storage
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doStore(array $frozenObject)
     {
@@ -84,7 +84,7 @@ class Model extends Storage
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doFetch($encodedKey, array &$objects = array())
     {

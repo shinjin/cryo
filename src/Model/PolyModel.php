@@ -10,12 +10,12 @@ use Freezer\Storage;
 class PolyModel extends Model
 {
     /**
-     * @inherits
+     * {@inheritdoc}
      */
     protected static $storage;
 
     /**
-     * @inherits
+     * {@inheritdoc}
      */
     public function delete(): int
     {
@@ -43,7 +43,7 @@ class PolyModel extends Model
     }
 
     /**
-     * @inherits
+     * {@inheritdoc}
      */
     protected static function createStorage(): Storage
     {
