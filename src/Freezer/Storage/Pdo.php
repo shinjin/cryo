@@ -6,7 +6,7 @@ use Freezer\Storage\Pdo as BasePdo;
 class Pdo extends BasePdo
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doFetch($id, array &$objects = array())
     {

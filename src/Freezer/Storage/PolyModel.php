@@ -6,7 +6,7 @@ use Cryo\Key;
 class PolyModel extends Model
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doStore(array $frozen_object)
     {

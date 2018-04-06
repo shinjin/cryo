@@ -11,12 +11,12 @@ use Freezer\Storage\ChainStorage;
 class Expando extends Model
 {
     /**
-     * @inherits
+     * {@inheritdoc}
      */
     protected static $storage;
 
     /**
-     * @inherits
+     * {@inheritdoc}
      */
     public function __set(string $name, $value): void
     {
@@ -28,7 +28,7 @@ class Expando extends Model
     }
 
     /**
-     * @inherits
+     * {@inheritdoc}
      */
     protected static function createStorage(): Storage
     {
