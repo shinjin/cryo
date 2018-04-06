@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f38da5c1a231030c8ad56119a2962f76",
+    "content-hash": "36406e5f4c24bc74e9d4bf1e718bc5e3",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -82,22 +82,22 @@
         },
         {
             "name": "shinjin/freezer",
-            "version": "0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shinjin/freezer.git",
-                "reference": "98d19bfc3da41402558616e3ace8eeb4b405b4d7"
+                "reference": "2ecc5de498d6d9771f9b7021bba88c965ea72dfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shinjin/freezer/zipball/98d19bfc3da41402558616e3ace8eeb4b405b4d7",
-                "reference": "98d19bfc3da41402558616e3ace8eeb4b405b4d7",
+                "url": "https://api.github.com/repos/shinjin/freezer/zipball/2ecc5de498d6d9771f9b7021bba88c965ea72dfa",
+                "reference": "2ecc5de498d6d9771f9b7021bba88c965ea72dfa",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "^1.0",
                 "php": "^5.6 || ^7.0",
-                "shinjin/pdo": "^0"
+                "shinjin/pdo": "dev-master"
             },
             "require-dev": {
                 "php-coveralls/php-coveralls": "^2.0",
@@ -125,20 +125,20 @@
                 "object storage",
                 "object store"
             ],
-            "time": "2018-03-23T02:12:04+00:00"
+            "time": "2018-04-06T00:00:21+00:00"
         },
         {
             "name": "shinjin/pdo",
-            "version": "0.6.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shinjin/pdo.git",
-                "reference": "fa752ad292ff6f4a3e21784730f57d5ce655b80a"
+                "reference": "0ba947fbc1fccce4d90b2e11ad88e7a0d3e0e85b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shinjin/pdo/zipball/fa752ad292ff6f4a3e21784730f57d5ce655b80a",
-                "reference": "fa752ad292ff6f4a3e21784730f57d5ce655b80a",
+                "url": "https://api.github.com/repos/shinjin/pdo/zipball/0ba947fbc1fccce4d90b2e11ad88e7a0d3e0e85b",
+                "reference": "0ba947fbc1fccce4d90b2e11ad88e7a0d3e0e85b",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
                 "pdo",
                 "pdo wrapper"
             ],
-            "time": "2018-04-04T20:29:18+00:00"
+            "time": "2018-04-05T23:22:27+00:00"
         }
     ],
     "packages-dev": [
@@ -2447,7 +2447,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "shinjin/freezer": 20,
+        "shinjin/pdo": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -12,8 +12,8 @@
     ],
     "require": {
         "php": "^7.1",
-        "shinjin/freezer": "^0",
-        "shinjin/pdo": "^0"
+        "shinjin/freezer": "dev-master",
+        "shinjin/pdo": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0",
