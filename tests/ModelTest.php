@@ -296,7 +296,6 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers  Cryo\Model::get
-     * @covers  Cryo\Model::getByKey
      * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Freezer\Storage\Model::doFetch
      * @covers  Cryo\Freezer\Storage\Model::buildQueryStatement
@@ -313,7 +312,6 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers  Cryo\Model::get
-     * @covers  Cryo\Model::getByKey
      * @covers  Cryo\Model::getStorage
      * @covers  Cryo\Freezer\Storage\Model::doFetch
      * @covers  Cryo\Freezer\Storage\Model::buildQueryStatement
@@ -331,7 +329,6 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::get
-     * @covers Cryo\Model::getByKey
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\Model::doFetch
      * @covers Cryo\Freezer\Storage\Model::buildQueryStatement

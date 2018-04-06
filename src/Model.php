@@ -309,11 +309,13 @@ abstract class Model
         $objects = array();
 
         foreach($ids as $id) {
-            $key = Key::generate($class, $id);
-            array_push($objects, self::getStorage()->fetch((string)$key));
+            array_push(
+                $objects,
+                self::getStorage()->fetch((string)Key::generate($class, $id))
+            );
         }
 
-        return count($objects) === 1 ? $objects[0] : $objects;
+        return count($ids) === 1 ? current($objects) : $objects;
     }
 
     /**
@@ -335,7 +337,7 @@ abstract class Model
             array_push($objects, self::getStorage()->fetch((string)$key));
         }
 
-        return count($objects) === 1 ? $objects[0] : $objects;
+        return count($keys) === 1 ? current($objects) : $objects;
     }
 
     /**
