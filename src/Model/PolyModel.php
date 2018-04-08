@@ -36,7 +36,7 @@ class PolyModel extends Model
             self::getDb()->commit();
         } catch (\PDOException $e) {
             self::getDb()->rollBack();
-            throw new \PDOException;
+            throw $e;
         }
 
         return $affected_rows;

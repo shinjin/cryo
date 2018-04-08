@@ -102,7 +102,7 @@ class Key
     {
         $id = (array)$id;
 
-        if (empty($id) || count($id) !== count(array_filter($id))) {
+        if (empty($id) || in_array(null, $id, true)) {
             throw new InvalidArgumentException('Id must be non-empty value.');
         }
 
