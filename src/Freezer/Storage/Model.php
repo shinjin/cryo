@@ -61,7 +61,7 @@ class Model extends Storage
                     // extract id from object
                     $pk = $object['class']::getPrimaryKey();
                     $id = array_intersect_key($object['state'], array_flip($pk));
-                    $isAutoIncrementId = count($id) === 1 && current($id) === null;
+                    $isAutoIncrementId = count($id) === 1 && reset($id) === null;
 
                     $values = $this->makeValuesForDb(
                         $object['class'],
@@ -74,7 +74,7 @@ class Model extends Storage
                         $this->keys[$encodedKey] = (int)$this->db->lastInsertId();
                         $key->setId($this->keys[$encodedKey]);
                     } else {
-                        $this->keys[$encodedKey] = current($id);
+                        $this->keys[$encodedKey] = reset($id);
                     }
                 }
             }

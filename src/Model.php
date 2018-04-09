@@ -307,15 +307,14 @@ abstract class Model
 
         $class = get_called_class();
         $objects = array();
+        $storage = self::getStorage();
 
         foreach($ids as $id) {
-            array_push(
-                $objects,
-                self::getStorage()->fetch((string)Key::generate($class, $id))
-            );
+            $key = Key::generate($class, $id);
+            array_push($objects, $storage->fetch((string)$key));
         }
 
-        return count($ids) === 1 ? current($objects) : $objects;
+        return count($ids) === 1 ? $objects[0] : $objects;
     }
 
     /**
@@ -332,12 +331,13 @@ abstract class Model
         }
 
         $objects = array();
+        $storage = self::getStorage();
 
         foreach($keys as $key) {
-            array_push($objects, self::getStorage()->fetch((string)$key));
+            array_push($objects, $storage->fetch((string)$key));
         }
 
-        return count($keys) === 1 ? current($objects) : $objects;
+        return count($keys) === 1 ? $objects[0] : $objects;
     }
 
     /**
