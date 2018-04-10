@@ -223,7 +223,9 @@ abstract class Model
      */
     public static function getPrimaryKey(): array
     {
-        return (array)static::$primary_key;
+        $pk = (array)static::$primary_key;
+        sort($pk);
+        return $pk;
     }
 
     /**
