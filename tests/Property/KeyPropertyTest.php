@@ -2,6 +2,7 @@
 namespace Cryo\Test\Property;
 
 use Cryo\Key;
+use Cryo\Exception\BadKeyException;
 use Cryo\Property\KeyProperty;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +37,7 @@ class KeyPropertyTest extends TestCase
 
     /**
      * @covers Cryo\Property\KeyProperty::validate
-     * @expectedException \Cryo\Exception\InvalidArgumentException
+     * @expectedException \Cryo\Exception\BadKeyException
      */
     public function testValidateThrowsExceptionIfValueIsNeitherKeyObjectNorString()
     {

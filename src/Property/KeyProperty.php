@@ -3,14 +3,14 @@ namespace Cryo\Property;
 
 use Cryo\Key;
 use Cryo\Property;
-use Cryo\Exception\InvalidArgumentException;
+use Cryo\Exception\BadKeyException;
 
 class KeyProperty extends Property
 {
     public function validate($value)
     {
         if (!$value instanceof Key && !is_string($value)) {
-            throw new InvalidArgumentException(
+            throw new BadKeyException(
                 'Key property must be either a Key object or string.'
             );
         }

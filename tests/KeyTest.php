@@ -2,7 +2,6 @@
 namespace Cryo\Test;
 
 use Cryo\Key;
-use Cryo\Exception\InvalidArgumentException;
 
 class KeyTest extends DatabaseTestCase
 {
@@ -45,6 +44,16 @@ class KeyTest extends DatabaseTestCase
     }
 
     /**
+     * @covers Cryo\Key::__construct
+     * @covers Cryo\Key::decode
+     * @expectedException \Cryo\Exception\BadKeyException
+     */
+    public function testConstructorThrowsExceptionIfEncodedKeyIsInvalid()
+    {
+        new Key('abc');
+    }
+
+    /**
      * @covers Cryo\Key::__toString
      * @covers Cryo\Key::encode
      */
@@ -77,7 +86,7 @@ class KeyTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Key::setClass
-     * @expectedException InvalidArgumentException
+     * @expectedException \Cryo\Exception\BadArgumentException
      */
     public function testSetClassThrowsExceptionIfClassIsInvalid()
     {
@@ -113,7 +122,7 @@ class KeyTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Key::setId
-     * @expectedException InvalidArgumentException
+     * @expectedException \Cryo\Exception\BadArgumentException
      */
     public function testSetIdThrowsExceptionIfIdIsEmpty()
     {
@@ -135,7 +144,7 @@ class KeyTest extends DatabaseTestCase
     /**
      * @covers Cryo\Key::getIdPair
      * @covers Cryo\Key::setId
-     * @expectedException RuntimeException
+     * @expectedException LogicException
      */
     public function testGetIdPairThrowsExceptionIfClassIsEmpty()
     {

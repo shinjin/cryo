@@ -73,7 +73,7 @@ class ModelTest extends DatabaseTestCase
      * @covers Cryo\Model::initializeProperties
      * @covers Cryo\Model::getClassHierarchy
      * @covers Cryo\Model::createProperty
-     * @expectedException InvalidArgumentException
+     * @expectedException \Cryo\Exception\PropertyException
      */
     public function testConstructorThrowsExceptionIfPropertyIsInvalid()
     {
@@ -94,7 +94,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::__get
-     * @expectedException InvalidArgumentException
+     * @expectedException \Cryo\Exception\PropertyException
      */
     public function testGetThrowsExceptionIfPropertyIsInvalid()
     {
@@ -114,7 +114,7 @@ class ModelTest extends DatabaseTestCase
 
     /**
      * @covers Cryo\Model::__set
-     * @expectedException InvalidArgumentException
+     * @expectedException \Cryo\Exception\PropertyException
      */
     public function testSetThrowsExceptionIfPropertyIsInvalid()
     {

@@ -4,7 +4,6 @@ namespace Cryo\Freezer\Storage;
 use Cryo\Key;
 use Freezer\Freezer;
 use Freezer\Storage;
-use Freezer\Exception\InvalidArgumentException;
 use Shinjin\Pdo\Db;
 
 class Model extends Storage
@@ -31,7 +30,6 @@ class Model extends Storage
      * @param  Freezer\Freezer $freezer     Freezer instance to be used
      * @param  boolean         $useLazyLoad Flag that controls whether objects
      *                                      are fetched using lazy load or not
-     * @throws InvalidArgumentException
      */
     public function __construct(
         Db $db,

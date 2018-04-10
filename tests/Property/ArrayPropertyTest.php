@@ -1,6 +1,7 @@
 <?php
 namespace Cryo\Test\Property;
 
+use Cryo\Exception\BadValueException;
 use Cryo\Property\ArrayProperty;
 use PHPUnit\Framework\TestCase;
 
@@ -33,7 +34,7 @@ class ArrayPropertyTest extends TestCase
 
     /**
      * @covers Cryo\Property\ArrayProperty::validate
-     * @expectedException \Cryo\Exception\InvalidArgumentException
+     * @expectedException \Cryo\Exception\BadValueException
      */
     public function testValidateThrowsExceptionIfValueIsNeitherArrayNorString()
     {

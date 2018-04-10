@@ -2,7 +2,8 @@
 namespace Cryo;
 
 use Cryo\Model;
-use Cryo\Exception\InvalidArgumentException;
+use Cryo\Exception\BadArgumentException;
+use Cryo\Exception\BadKeyException;
 
 class Key
 {
@@ -68,13 +69,13 @@ class Key
      * @param string $class The object's class name
      *
      * @return void
-     * @throws \Cryo\Exception\InvalidArgumentException
+     * @throws \Cryo\Exception\BadArgumentException
      */
     public function setClass(string $class): void
     {
         if (!is_subclass_of($class, '\\Cryo\\Model')) {
             $message = sprintf('Class %s must be a valid Cryo model.', $class);
-            throw new InvalidArgumentException($message);
+            throw new BadArgumentException($message);
         }
 
         $this->class = $class;
@@ -96,14 +97,14 @@ class Key
      * @param string $id The object's id
      *
      * @return void
-     * @throws \Cryo\Exception\InvalidArgumentException
+     * @throws \Cryo\Exception\BadArgumentException
      */
     public function setId($id): void
     {
         $id = (array)$id;
 
         if (empty($id) || in_array(null, $id, true)) {
-            throw new InvalidArgumentException('Id must be non-empty value.');
+            throw new BadArgumentException('Id must be non-empty value.');
         }
 
         $this->id = array_values($id);
@@ -123,12 +124,12 @@ class Key
      * Returns the object's id key/value pair.
      *
      * @return array
-     * @throws \RuntimeException
+     * @throws \LogicException
      */
     public function getIdPair(): array
     {
         if (empty($this->class)) {
-            throw new \RuntimeException('Class name must be defined.');
+            throw new \LogicException('Class name must be defined.');
         }
 
         return array_combine($this->class::getPrimaryKey(), $this->id);
@@ -171,6 +172,12 @@ class Key
      */
     private function decode(string $encoded): array
     {
-        return json_decode(base64_decode($encoded), true);
+        $properties = json_decode(base64_decode($encoded), true);
+
+        if (empty($properties)) {
+            throw new BadKeyException('Key string is invalid.');
+        }
+
+        return $properties;
     }
 }

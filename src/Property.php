@@ -1,7 +1,7 @@
 <?php
 namespace Cryo;
 
-use Cryo\Exception\InvalidArgumentException;
+use Cryo\Exception\BadValueException;
 
 abstract class Property
 {
@@ -98,21 +98,23 @@ abstract class Property
      * @param  string $value The value to validate.
      *
      * @return mixed
-     * @throws \Cryo\Exception\InvalidArgumentException
+     * @throws \Cryo\Exception\BadValueException
      */
     public function validate($value)
     {
         if ($this->params['required'] === true && $value === null) {
-            $message = sprintf('Property "%s" must be provided.', $this->name);
-            throw new InvalidArgumentException($message);
+            throw new BadValueException(
+                sprintf('Property "%s" must be provided.', $this->name)
+            );
         }
 
         if (gettype($value) !== $this->params['type'] && $value !== null) {
-            $message = sprintf(
-                'Property "%s" is %s type and must be %s type.',
-                $this->name, gettype($value), $this->params['type']
+            throw new BadValueException(
+                sprintf(
+                    'Property "%s" is %s type and must be %s type.',
+                    $this->name, gettype($value), $this->params['type']
+                )
             );
-            throw new InvalidArgumentException($message);
         }
 
         return $value;

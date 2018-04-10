@@ -51,7 +51,7 @@ class PropertyTest extends TestCase
 
     /**
      * @covers Cryo\Property::validate
-     * @expectedException InvalidArgumentException
+     * @expectedException \Cryo\Exception\BadValueException
      */
     public function testThrowsExceptionIfValueIsRequiredButNull()
     {
@@ -60,7 +60,7 @@ class PropertyTest extends TestCase
 
     /**
      * @covers Cryo\Property::validate
-     * @expectedException InvalidArgumentException
+     * @expectedException \Cryo\Exception\BadValueException
      */
     public function testThrowsExceptionIfValueIsWrongType()
     {

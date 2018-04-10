@@ -1,8 +1,9 @@
 <?php
 namespace Cryo;
 
-use Cryo\Exception\InvalidArgumentException;
+use Cryo\Exception\BadArgumentException;
 use Cryo\Exception\NotSavedException;
+use Cryo\Exception\PropertyException;
 use Cryo\Freezer\Storage\Model as ModelStorage;
 
 use Freezer\Freezer;
@@ -101,13 +102,13 @@ abstract class Model
      * @param string $name Property name
      *
      * @return mixed
-     * @throws \Cryo\Exception\InvalidArgumentException
+     * @throws \Cryo\Exception\PropertyException
      */
     public function &__get(string $name)
     {
         if (!array_key_exists($name, $this->state)) {
             if (!property_exists($this, $name)) {
-                throw new InvalidArgumentException(
+                throw new PropertyException(
                     sprintf('Property "%s" does not exist.', $name)
                 );                
             }
@@ -125,12 +126,12 @@ abstract class Model
      * @param mixed  $value Property value
      *
      * @return void
-     * @throws \Cryo\Exception\InvalidArgumentException
+     * @throws \Cryo\Exception\PropertyException
      */
     public function __set(string $name, $value): void
     {
         if (!property_exists($this, $name)) {
-            throw new InvalidArgumentException(
+            throw new PropertyException(
                 sprintf('Property "%s" does not exist.', $name)
             );
         }
@@ -492,6 +493,7 @@ abstract class Model
      * Creates a new property for the object.
      *
      * @return \Cryo\Property
+     * @throws \Cryo\Exception\PropertyException
      */
     private static function createProperty(string $name, array $params): Property
     {
@@ -499,7 +501,7 @@ abstract class Model
         $class  = sprintf('\\Cryo\\Property\\%sProperty', ucfirst($params['type']));
 
         if (!class_exists($class)) {
-            throw new InvalidArgumentException(
+            throw new PropertyException(
                 sprintf('%s property is not defined.', ucfirst($params['type']))
             );
         }
