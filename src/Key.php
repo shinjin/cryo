@@ -107,6 +107,7 @@ class Key
             throw new BadArgumentException('Id must be non-empty value.');
         }
 
+        ksort($id);
         $this->id = array_values($id);
     }
 
