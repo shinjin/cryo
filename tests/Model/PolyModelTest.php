@@ -35,7 +35,7 @@ class PolyModelTest extends DatabaseTestCase
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Model\PolyModel::createStorage
      * @covers Cryo\Freezer\Storage\Model::doFetch
-     * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\PolyModel::query
      */
     public function testGetsPolyModelObject()
     {
@@ -50,7 +50,7 @@ class PolyModelTest extends DatabaseTestCase
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Model\PolyModel::createStorage
      * @covers Cryo\Freezer\Storage\Model::doFetch
-     * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\PolyModel::query
      */
     public function testGetsPolyModelConcreteObject()
     {
@@ -66,7 +66,7 @@ class PolyModelTest extends DatabaseTestCase
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Model::__get
      * @covers Cryo\Freezer\Storage\PolyModel::doStore
-     * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\PolyModel::query
      * @covers Cryo\Freezer\Storage\Model::doStore
      * @covers Cryo\Freezer\Storage\Model::doFetch
      */
@@ -82,7 +82,7 @@ class PolyModelTest extends DatabaseTestCase
      * @covers Cryo\Model::put
      * @covers Cryo\Model::getStorage
      * @covers Cryo\Freezer\Storage\PolyModel::doStore
-     * @covers Cryo\Freezer\Storage\PolyModel::buildQueryStatement
+     * @covers Cryo\Freezer\Storage\PolyModel::query
      * @covers Cryo\Freezer\Storage\Model::doStore
      * @covers Cryo\Freezer\Storage\Model::doFetch
      */

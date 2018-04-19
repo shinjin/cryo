@@ -133,12 +133,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/shinjin/pdo.git",
-                "reference": "4da8659d97bfc3f8fc16488876ddc59ca21c3c68"
+                "reference": "1f54faea87b70ae2b03b142cc68a4d8702c48fd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shinjin/pdo/zipball/4da8659d97bfc3f8fc16488876ddc59ca21c3c68",
-                "reference": "4da8659d97bfc3f8fc16488876ddc59ca21c3c68",
+                "url": "https://api.github.com/repos/shinjin/pdo/zipball/1f54faea87b70ae2b03b142cc68a4d8702c48fd4",
+                "reference": "1f54faea87b70ae2b03b142cc68a4d8702c48fd4",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
                 "pdo",
                 "pdo wrapper"
             ],
-            "time": "2018-04-19T19:27:46+00:00"
+            "time": "2018-04-19T21:10:34+00:00"
         }
     ],
     "packages-dev": [

@@ -47,41 +47,41 @@ class PolyModel extends Model
         return $key;
     }
 
-    protected function buildQueryStatement(Key $key, string $class): string
+    protected function query(Key $key, string $class, array $id): \PdoStatement
     {
-        $pk = $class::getPrimaryKey();
+        $id = $key->getIdPair();
         $classes = $class::getClassHierarchy();
 
         $base_class = array_shift($classes);
         $base_table = $base_class::getTable();
-        $table = $tables = $base_table;
+        $table  = $base_table;
+        $tables = array($table);
 
-        $columns = '';
-        $filters = '';
+        $columns = array();
+        $filters = array();
 
-        foreach($pk as $key) {
-            $column = sprintf('%s.%s', $base_table, $key);
-            $columns .= $column . ',';
-            $filters .= $column . ' = ?,';
+        foreach($id as $name => $value) {
+            $column = sprintf('%s.%s', $base_table, $name);
+            array_push($columns, $column);
+            $filters[$column] = $value;
         }
-        $columns .= implode(',', array_keys($class::getProperties($pk)));
+
+        $properties = array_keys($class::getProperties(array_keys($id)));
+        $columns = array_merge($columns, $properties);
 
         foreach($classes as $class) {
             if ($table !== $class::getTable()) {
                 $table = $class::getTable();
                 $on = array();
 
-                foreach($pk as $key) {
-                    $args = array($base_table, $key, $table, $key);
-                    array_push($on, vsprintf('%s.%s = %s.%s', $args));
+                foreach($id as $name => $value) {
+                    $column = sprintf('%s.%s', $base_table, $name);
+                    $on[$column] = sprintf('%s.%s', $table, $name);
                 }
-
-                $tables .= sprintf(' JOIN %s ON %s', $table, implode(' AND ', $on));
             }
+            $tables[$table] = $on;
         }
 
-        return sprintf(
-            'SELECT %s FROM %s WHERE %s', $columns, $tables, rtrim($filters, ',')
-        );
+        return $this->db->select($columns, $tables, $filters);
     }
 }
