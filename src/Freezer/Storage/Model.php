@@ -123,7 +123,8 @@ class Model extends Storage
 
     protected function buildQueryStatement(Key $key, string $class): string
     {
-        $filter = $this->db->buildQueryFilter($key->getIdPair());
+        $params = array();
+        $filter = $this->db->buildQueryFilter($key->getIdPair(), $params);
         return sprintf('SELECT * FROM %s WHERE %s', $class::getTable(), $filter);
     }
 
