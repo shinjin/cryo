@@ -78,8 +78,9 @@ class PolyModel extends Model
                     $column = sprintf('%s.%s', $base_table, $name);
                     $on[$column] = sprintf('%s.%s', $table, $name);
                 }
+
+                $tables[$table] = $on;
             }
-            $tables[$table] = $on;
         }
 
         return $this->db->select($columns, $tables, $filters);
